@@ -53,6 +53,25 @@ overflow:auto;
 }
 
 .selected{background:#d9ead3;}
+
+.modal{
+position:fixed;
+top:0;left:0;
+width:100%;height:100%;
+background:white;
+display:none;
+overflow:auto;
+}
+
+.modal-content{padding:15px;}
+
+.top-bar{display:flex;justify-content:space-between;}
+
+label{
+display:block;
+padding:10px;
+border-bottom:1px solid #ddd;
+}
 </style>
 </head>
 
@@ -64,12 +83,12 @@ overflow:auto;
 
 <input id="cliente" placeholder="👤 Nombre del cliente">
 
-<button class="crepas" onclick="addSimple('Crepa',40)">🥞 Crepas</button>
-<button class="platanos" onclick="addSimple('Plátanos',30)">🍌 Plátanos</button>
-<button class="papas" onclick="addSimple('Papas especiales',35)">🍟 Papas</button>
-<button class="hamb" onclick="addSimple('Hamburguesa',60)">🍔 Hamburguesas</button>
-<button class="hot" onclick="addSimple('Hot Dog',25)">🌭 Hot Dogs</button>
-<button class="frap" onclick="addSimple('Frappé',40)">🥤 Frappés</button>
+<button class="crepas" onclick="crepas()">🥞 Crepas</button>
+<button class="platanos" onclick="platanos()">🍌 Plátanos</button>
+<button class="papas" onclick="papas()">🍟 Papas</button>
+<button class="hamb" onclick="hamb()">🍔 Hamburguesas</button>
+<button class="hot" onclick="hot()">🌭 Hot Dogs</button>
+<button class="frap" onclick="frap()">🥤 Frappés</button>
 
 <div id="carrito"></div>
 <h2 id="total">Total: $0</h2>
@@ -80,16 +99,77 @@ overflow:auto;
 
 </div>
 
+<div id="modal" class="modal">
+<div class="modal-content">
+<div class="top-bar">
+<button onclick="back()">⬅</button>
+<button onclick="cerrar()">❌</button>
+</div>
+<h3 id="titulo"></h3>
+<div id="ops"></div>
+<button onclick="next()">Siguiente</button>
+</div>
+</div>
+
 <script>
 let carrito=[], seleccionado=null;
+let paso=0, flujo=[], data={}, maxSel=null;
 
-// AGREGAR PRODUCTO RÁPIDO (SIN BUGS)
-function addSimple(nombre,precio){
-carrito.push({nombre,precio});
+// ===== MODAL =====
+function abrir(titulo,ops,tipo,max=null){
+document.getElementById("modal").style.display="block";
+document.getElementById("titulo").innerText=titulo;
+maxSel=max;
+
+let html="";
+ops.forEach(o=>{
+html+=`<label><input type="${tipo}" name="opcion" value="${o}" onclick="control(this)"> ${o}</label>`;
+});
+document.getElementById("ops").innerHTML=html;
+}
+
+function cerrar(){document.getElementById("modal").style.display="none";}
+function back(){ if(paso>0){ paso--; flujo[paso](); } }
+
+function getSel(){
+return [...document.querySelectorAll("#ops input:checked")].map(i=>i.value);
+}
+
+function control(input){
+let checks=document.querySelectorAll("#ops input");
+
+if(input.value==="Ninguna"||input.value==="Ninguno"){
+if(input.checked) checks.forEach(c=>{if(c!==input)c.checked=false;});
+}else{
+checks.forEach(c=>{
+if(c.value==="Ninguna"||c.value==="Ninguno") c.checked=false;
+});
+}
+
+if(maxSel && getSel().length>maxSel) input.checked=false;
+}
+
+function next(){
+let sel=getSel();
+if(!sel.length){alert("Selecciona algo");return;}
+
+data[flujo[paso].key]=sel;
+paso++;
+
+if(paso<flujo.length){
+flujo[paso]();
+}else{
+cerrar();
+flujo.fin();
+}
+}
+
+// ===== CARRITO =====
+function add(txt,precio){
+carrito.push({nombre:txt,precio});
 render();
 }
 
-// RENDER
 function render(){
 let div=document.getElementById("carrito");
 div.innerHTML="";
@@ -105,45 +185,155 @@ document.getElementById("total").innerText="Total: $"+total;
 }
 
 function seleccionar(i){seleccionado=i;render();}
-function eliminar(){
-if(seleccionado!=null){
-carrito.splice(seleccionado,1);
-seleccionado=null;
-render();
-}
+function eliminar(){ if(seleccionado!=null){carrito.splice(seleccionado,1);seleccionado=null;render();}}
+function vaciar(){carrito=[];render();}
+
+// ===== CREPAS =====
+function crepas(){
+paso=0;data={};
+
+flujo=[
+()=>abrir("Bases",["Nutella","Lechera","Cajeta"],"checkbox",2),
+()=>abrir("Frutas",["Fresa","Plátano","Ninguna"],"checkbox"),
+()=>abrir("Toppings",["Chocolate","Nuez","Ninguno"],"radio")
+];
+
+flujo[0].key="bases";
+flujo[1].key="frutas";
+flujo[2].key="top";
+
+flujo.fin=function(){
+let precio=40;
+let txt="Crepa\nBase: "+data.bases.join(", ");
+
+let frutas=(data.frutas||[]).filter(x=>x!="Ninguna");
+if(frutas.length) txt+="\nFruta: "+frutas.join(", ");
+
+txt+="\nTopping: "+data.top;
+txt+="\nPrecio: $"+precio;
+
+add(txt,precio);
+};
+
+flujo[0]();
 }
 
-function vaciar(){
-carrito=[];
-render();
+// ===== PAPAS =====
+function papas(){
+paso=0;data={};
+
+flujo=[
+()=>abrir("Tipo",["Papas","Salchipulpos","Banderilla"],"radio"),
+()=>abrir("Aderezos",["Catsup","Queso","Ninguna"],"checkbox")
+];
+
+flujo[0].key="tipo";
+flujo[1].key="ad";
+
+flujo.fin=function(){
+let precio=35;
+let txt=data.tipo[0];
+
+let ad=(data.ad||[]).filter(x=>x!="Ninguna");
+if(ad.length) txt+="\nAderezos: "+ad.join(", ");
+
+txt+="\nPrecio: $"+precio;
+add(txt,precio);
+};
+
+flujo[0]();
 }
 
-// ENVIAR
+// ===== HAMBURGUESAS (CORREGIDO) =====
+function hamb(){
+paso=0;data={};
+
+flujo=[
+()=>abrir("Tipo",["Clásica","Hawaiana","Especial"],"radio"),
+()=>abrir("¿Con papas?",["Con papas","Sin papas"],"radio"),
+()=>abrir("Extras",["Tocino $8","Queso $5","Ninguna"],"checkbox")
+];
+
+flujo[0].key="tipo";
+flujo[1].key="papas";
+flujo[2].key="extra";
+
+flujo.fin=function(){
+
+let precio = data.papas[0]=="Con papas" ? 70 : 60;
+
+(data.extra||[]).forEach(e=>{
+if(e.includes("$")) precio+=parseInt(e.split("$")[1]);
+});
+
+let txt="Hamburguesa "+data.tipo[0]+" "+data.papas[0];
+
+let ex=(data.extra||[]).filter(x=>x!="Ninguna");
+if(ex.length) txt+="\nExtras: "+ex.join(", ");
+
+txt+="\nPrecio: $"+precio;
+add(txt,precio);
+};
+
+flujo[0]();
+}
+
+// ===== HOTDOG =====
+function hot(){
+paso=0;data={};
+
+flujo=[
+()=>abrir("Cantidad",["1","2","3"],"radio")
+];
+
+flujo[0].key="cant";
+
+flujo.fin=function(){
+let precio=parseInt(data.cant[0])*20;
+let txt="Hot Dogs x"+data.cant[0]+"\nPrecio: $"+precio;
+add(txt,precio);
+};
+
+flujo[0]();
+}
+
+// ===== FRAPPE =====
+function frap(){
+paso=0;data={};
+
+flujo=[
+()=>abrir("Sabor",["Oreo","Fresa","Mazapán"],"radio"),
+()=>abrir("Tamaño",["Chico","Grande"],"radio")
+];
+
+flujo[0].key="sab";
+flujo[1].key="tam";
+
+flujo.fin=function(){
+let precio = data.tam[0]=="Grande"?50:30;
+let txt="Frappé "+data.sab+" "+data.tam+"\nPrecio: $"+precio;
+add(txt,precio);
+};
+
+flujo[0]();
+}
+
+// ===== ENVIAR =====
 function enviar(){
-
 let nombre=document.getElementById("cliente").value.trim();
 
-if(!nombre){
-alert("Ingresa el nombre");
-return;
-}
+if(!nombre){alert("Pon nombre");return;}
+if(carrito.length==0){alert("Agrega productos");return;}
 
-if(carrito.length===0){
-alert("Agrega productos");
-return;
-}
-
-let txt="🐱 EL MICHI 🐱%0A%0A";
-txt+="Cliente: "+nombre+"%0A%0A";
-
+let txt="🐱 EL MICHI 🐱%0ACliente: "+nombre+"%0A%0A";
 let total=0;
 
 carrito.forEach(i=>{
-txt+="• "+i.nombre+" - $"+i.precio+"%0A";
+txt+=i.nombre.replace(/\n/g,"%0A")+"%0A%0A";
 total+=i.precio;
 });
 
-txt+="%0ATotal: $"+total;
+txt+="Total: $"+total;
 
 window.open("https://wa.me/525532416109?text="+txt);
 }
