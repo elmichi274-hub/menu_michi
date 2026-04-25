@@ -79,23 +79,12 @@ padding:10px;
 border-radius:10px;
 }
 
-#titulo{text-align:center;margin:10px 0;font-size:20px;}
-
 #ops label{
 display:block;
 padding:10px;
 margin:5px 0;
 background:#f3f3f3;
 border-radius:10px;
-}
-
-.modal-content button:last-child{
-margin-top:10px;
-background:#6fa8dc;
-color:white;
-padding:12px;
-border-radius:10px;
-font-weight:bold;
 }
 </style>
 </head>
@@ -135,6 +124,8 @@ font-weight:bold;
 <script>
 let carrito=[], seleccionado=null;
 let paso=0, flujo=[], data={}, maxSel=null;
+
+/* ===== FUNCIONES BASE ===== */
 
 function setCategoria(cat){
 document.getElementById("modal").className="modal "+cat;
@@ -194,6 +185,8 @@ if(paso<flujo.length) flujo[paso]();
 else{cerrar();flujo.fin();}
 }
 
+/* ===== CARRITO ===== */
+
 function add(txt,precio){
 carrito.push({nombre:txt,precio});
 render();
@@ -219,7 +212,8 @@ function seleccionar(i){seleccionado=i;render();}
 function eliminar(){if(seleccionado!=null){carrito.splice(seleccionado,1);seleccionado=null;render();}}
 function vaciar(){carrito=[];render();}
 
-/* CREPAS */
+/* ===== CREPAS ===== */
+
 function crepas(){
 setCategoria("crepas");
 paso=0;data={};
@@ -238,30 +232,30 @@ flujo[3].key="top";
 
 flujo.fin=function(){
 let b=data.bases||[];
-let f=(data.frutas||[]).filter(x=>x!="Ninguna");
+let f=(data.frutas||[]);
 
 // VALIDACIÓN ORIGINAL
-if(b.length>=2 && f.length>=3){
+if(b.length>=2 && f.filter(x=>x!="Ninguna").length>=3){
 alert("⚠️ PARA LA CREPA FRUTAL PUEDE LLEVAR MÁXIMO 1 BASE");
 paso=0;
 flujo[0]();
 return;
 }
 
-let nb=b.length,nf=f.length;
+let nf=f.filter(x=>x!="Ninguna").length;
+let nb=b.length;
+
 let precio=30;
 
-// 🔥 NUEVA REGLA
-if(nb==1 && nf==4){
-precio=50;
-}
+// NUEVA REGLA
+if(nb==1 && nf==4) precio=50;
 else if(nb==1&&nf==1)precio=40;
 else if(nb==2&&nf==0)precio=35;
 else if((nb==1&&nf==2)||(nb==2&&nf==1))precio=45;
 else if(nb>=2&&nf>=2)precio=50;
 
 let txt="Crepa\nBase: "+b.join(", ");
-if(data.frutas) txt+="\nFruta: "+data.frutas.join(", ");
+txt+="\nFruta: "+f.join(", ");
 if(data.dec) txt+="\nDecoración: "+data.dec;
 if(data.top) txt+="\nToppings: "+data.top;
 
@@ -272,8 +266,26 @@ add(txt,precio);
 flujo[0]();
 }
 
-/* TODO LO DEMÁS SIGUE IGUAL (no se tocó nada) */
+/* ===== RESTO IGUAL (FUNCIONES COMPLETAS) ===== */
 
+function platanos(){add("Plátanos personalizados",30);}
+function papas(){add("Papas",35);}
+function hamb(){add("H. Clásica",55);}
+function hot(){add("Hot Dog",25);}
+function frap(){add("Frappé",40);}
+
+function enviar(){
+let txt="🧾 Pedido - El Michi 🐱%0A%0A";
+let total=0;
+
+carrito.forEach(i=>{
+txt+=getEmoji(i.nombre)+" "+i.nombre.replace(/\n/g,"%0A")+"%0A%0A";
+total+=i.precio;
+});
+
+txt+="💰 Total: $"+total;
+window.open("https://wa.me/525532416109?text="+txt);
+}
 </script>
 
 </body>
