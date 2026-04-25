@@ -61,7 +61,6 @@ display:none;
 overflow:auto;
 }
 
-/* 🔥 VENTANA PRO */
 .modal-content{
 padding:15px;
 background:white;
@@ -71,18 +70,12 @@ box-shadow:0 10px 25px rgba(0,0,0,0.25);
 animation:fadeIn 0.3s ease;
 }
 
-/* animación */
 @keyframes fadeIn{
 from{opacity:0;transform:scale(0.9);}
 to{opacity:1;transform:scale(1);}
 }
 
-/* barra */
-.top-bar{
-display:flex;
-justify-content:space-between;
-margin-bottom:10px;
-}
+.top-bar{display:flex;justify-content:space-between;margin-bottom:10px;}
 
 .top-bar button{
 background:#6fa8dc;
@@ -92,7 +85,6 @@ padding:10px;
 border-radius:10px;
 }
 
-/* titulo */
 #titulo{
 text-align:center;
 margin:10px 0;
@@ -100,7 +92,6 @@ color:#3c78d8;
 font-size:20px;
 }
 
-/* opciones */
 #ops{
 max-height:300px;
 overflow:auto;
@@ -112,15 +103,9 @@ padding:10px;
 margin:5px 0;
 background:#f3f3f3;
 border-radius:10px;
-transition:0.2s;
 cursor:pointer;
 }
 
-#ops label:hover{
-background:#d9ead3;
-}
-
-/* botón siguiente */
 .modal-content button:last-child{
 margin-top:10px;
 background:#6fa8dc;
@@ -141,7 +126,7 @@ font-weight:bold;
 
 <button class="crepas" onclick="crepas()">🥞 Crepas</button>
 <button class="platanos" onclick="platanos()">🍌 Plátanos</button>
-<button class="papas" onclick="papas()">🍟 Papas,salchipulpos y banderillas</button>
+<button class="papas" onclick="papas()">🍟 Papas</button>
 <button class="hamb" onclick="hamb()">🍔 Hamburguesas</button>
 <button class="hot" onclick="hot()">🌭 Hot Dogs</button>
 <button class="frap" onclick="frap()">🥤 Frappés</button>
@@ -171,21 +156,21 @@ font-weight:bold;
 let carrito=[], seleccionado=null;
 let paso=0, flujo=[], data={}, maxSel=null;
 
-/* 🔥 EMOJIS AUTOMÁTICOS */
+// EMOJIS
 function getEmoji(nombre){
 if(nombre.includes("Crepa")) return "🥞";
 if(nombre.includes("Plátanos")) return "🍌";
-if(nombre.includes("Papas") || nombre.includes("Salchipulpos") || nombre.includes("Banderilla")) return "🍟";
+if(nombre.includes("Papas")) return "🍟";
 if(nombre.includes("H.")) return "🍔";
 if(nombre.includes("Hot Dog")) return "🌭";
 if(nombre.includes("Frappé")) return "🥤";
 return "🍽️";
 }
 
-// ===== GENERADOR =====
+// MOTOR
 function abrir(titulo,ops,tipo,max=null){
 document.getElementById("modal").style.display="block";
-document.getElementById("titulo").innerText="✨ "+titulo;
+document.getElementById("titulo").innerText=titulo;
 maxSel=max;
 
 let html="";
@@ -227,7 +212,7 @@ if(paso<flujo.length) flujo[paso]();
 else{cerrar();flujo.fin();}
 }
 
-// ===== CARRITO =====
+// CARRITO
 function add(txt,precio){
 carrito.push({nombre:txt,precio});
 render();
@@ -240,32 +225,55 @@ let total=0;
 
 carrito.forEach((i,idx)=>{
 let emoji=getEmoji(i.nombre);
-
-div.innerHTML+=`<p onclick="seleccionar(${idx})" class="${seleccionado===idx?'selected':''}">
-${emoji} $${i.precio} - ${i.nombre.replace(/\n/g,"<br>")}
-</p>`;
+div.innerHTML+=`<p onclick="seleccionar(${idx})">${emoji} $${i.precio} - ${i.nombre}</p>`;
 total+=i.precio;
 });
 
 document.getElementById("total").innerText="Total: $"+total;
 }
 
-function seleccionar(i){seleccionado=i;render();}
+function seleccionar(i){seleccionado=i;}
 function eliminar(){if(seleccionado!=null){carrito.splice(seleccionado,1);seleccionado=null;render();}}
 function vaciar(){carrito=[];render();}
 
-// ===== ENVIAR =====
+// ===== EJEMPLO FUNCIONAL (CREPAS) =====
+function crepas(){
+paso=0;data={};
+
+flujo=[
+()=>abrir("Bases",["Nutella","Lechera"],"checkbox",2),
+()=>abrir("Frutas",["Fresa","Plátano"],"checkbox")
+];
+
+flujo[0].key="bases";
+flujo[1].key="frutas";
+
+flujo.fin=function(){
+let txt="Crepa\nBase: "+data.bases+"\nFruta: "+data.frutas;
+add(txt,40);
+};
+
+flujo[0]();
+}
+
+// DEMO OTROS BOTONES
+function platanos(){add("Plátanos preparados",30);}
+function papas(){add("Papas a la francesa",35);}
+function hamb(){add("H. Clásica",55);}
+function hot(){add("Hot Dog",20);}
+function frap(){add("Frappé",30);}
+
+// ENVIAR
 function enviar(){
-let txt="🧾 Pedido - El Michi 🐱%0A%0A";
+let txt="Pedido:%0A%0A";
 let total=0;
 
 carrito.forEach(i=>{
-let emoji=getEmoji(i.nombre);
-txt+=emoji+" "+i.nombre.replace(/\n/g,"%0A")+"%0A%0A";
+txt+=i.nombre.replace(/\n/g,"%0A")+"%0A%0A";
 total+=i.precio;
 });
 
-txt+="💰 Total: $"+total;
+txt+="Total: $"+total;
 window.open("https://wa.me/525532416109?text="+txt);
 }
 </script>
