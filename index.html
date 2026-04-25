@@ -252,10 +252,23 @@ return;
 let nb=b.length,nf=f.length;
 let precio=30;
 
-if(nb==1&&nf==1)precio=40;
+// 🔥 NUEVAS REGLAS DE $50 (PRIMERO)
+if(
+(nb==1 && nf==4) ||
+(nb==1 && nf==3) ||
+(nb==2 && nf==2)
+){
+precio=50;
+}
+
+// REGLAS ORIGINALES
+else if(nb==1&&nf==1)precio=40;
 else if(nb==2&&nf==0)precio=35;
 else if((nb==1&&nf==2)||(nb==2&&nf==1))precio=45;
-else if(nb>=1&&nf>=4)precio=50;
+else if(nb==1&&nf==0)precio=30;
+
+// OPCIONAL (por si agregas más combinaciones grandes)
+else if(nb>=2&&nf>=3)precio=50;
 
 let txt="Crepa\nBase: "+b.join(", ");
 if(data.frutas) txt+="\nFruta: "+data.frutas.join(", ");
