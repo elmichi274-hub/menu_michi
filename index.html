@@ -274,7 +274,7 @@ add(txt,precios[t]);
 flujo[0]();
 }
 
-// ===== HAMBURGUESAS (ARREGLADO) =====
+// ===== HAMBURGUESAS =====
 function hamb(){
 paso=0;data={};
 
@@ -395,20 +395,30 @@ add(txt,precio);
 flujo[0]();
 }
 
-// ===== ENVIAR =====
+// ===== ENVIAR (CON EMOJIS) =====
 function enviar(){
 let txt="Pedido:%0A%0A";
 let total=0;
 
 carrito.forEach(i=>{
-txt+=i.nombre.replace(/\n/g,"%0A")+"%0A%0A";
+
+let emoji="🍽️";
+
+if(i.nombre.includes("Crepa")) emoji="🥞";
+else if(i.nombre.includes("Plátanos")) emoji="🍌";
+else if(i.nombre.includes("Papas") || i.nombre.includes("Salchipulpos") || i.nombre.includes("Banderilla")) emoji="🍟";
+else if(i.nombre.includes("H.")) emoji="🍔";
+else if(i.nombre.includes("Hot Dog")) emoji="🌭";
+else if(i.nombre.includes("Frappé")) emoji="🥤";
+
+txt+=emoji+" "+i.nombre.replace(/\n/g,"%0A")+"%0A%0A";
+
 total+=i.precio;
 });
 
 txt+="Total: $"+total;
 window.open("https://wa.me/525532416109?text="+txt);
 }
-
 </script>
 
 </body>
