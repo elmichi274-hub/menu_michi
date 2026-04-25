@@ -219,7 +219,7 @@ function seleccionar(i){seleccionado=i;render();}
 function eliminar(){if(seleccionado!=null){carrito.splice(seleccionado,1);seleccionado=null;render();}}
 function vaciar(){carrito=[];render();}
 
-/* CREPAS (RESPETANDO PRECIOS ORIGINALES) */
+/* CREPAS */
 function crepas(){
 setCategoria("crepas");
 paso=0;data={};
@@ -240,19 +240,22 @@ flujo.fin=function(){
 let b=data.bases||[];
 let f=(data.frutas||[]).filter(x=>x!="Ninguna");
 
-/* VALIDACIÓN SIN AFECTAR PRECIOS */
-if(b.length==2 && f.length>=3){
+// VALIDACIÓN
+if(b.length==2 && f.length>=2){
 alert("⚠️ PARA LA CREPA FRUTAL PUEDE LLEVAR MÁXIMO 1 BASE");
 paso=0;
 flujo[0]();
 return;
 }
 
-/* PRECIOS ORIGINALES */
 let nb=b.length,nf=f.length;
 let precio=30;
 
-if(nb==1&&nf==1)precio=40;
+// 🔥 NUEVA REGLA
+if(nb==1 && nf==4) precio=50;
+
+// ORIGINALES
+else if(nb==1&&nf==1)precio=40;
 else if(nb==2&&nf==0)precio=35;
 else if((nb==1&&nf==2)||(nb==2&&nf==1))precio=45;
 else if(nb>=2&&nf>=2)precio=50;
@@ -269,4 +272,23 @@ add(txt,precio);
 flujo[0]();
 }
 
-/* (EL RESTO DE FUNCIONES IGUAL QUE YA TE DI: NO SE TOCAN) */
+/* RESTO IGUAL (ya correcto) */
+
+/* ENVIAR */
+function enviar(){
+let txt="🧾 Pedido - El Michi 🐱%0A%0A";
+let total=0;
+
+carrito.forEach(i=>{
+let emoji=getEmoji(i.nombre);
+txt+=emoji+" "+i.nombre.replace(/\n/g,"%0A")+"%0A%0A";
+total+=i.precio;
+});
+
+txt+="💰 Total: $"+total;
+window.open("https://wa.me/525532416109?text="+txt);
+}
+</script>
+
+</body>
+</html>
