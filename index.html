@@ -23,7 +23,6 @@ border:none;
 border-radius:10px;
 font-weight:bold;
 cursor:pointer;
-text-align:left;
 }
 
 .crepas{background:#ffd966;}
@@ -33,9 +32,9 @@ text-align:left;
 .hot{background:#93c47d;}
 .frap{background:#76a5af;}
 
-.enviar{background:#6fa8dc;color:white;text-align:center;}
-.eliminar{background:#e06666;color:white;text-align:center;}
-.vaciar{background:#ea9999;color:white;text-align:center;}
+.enviar{background:#6fa8dc;color:white;}
+.eliminar{background:#e06666;color:white;}
+.vaciar{background:#ea9999;color:white;}
 
 #carrito{
 background:white;
@@ -53,7 +52,6 @@ position:fixed;
 top:0;left:0;
 width:100%;height:100%;
 display:none;
-background:rgba(0,0,0,0.3);
 overflow:auto;
 }
 
@@ -62,12 +60,19 @@ padding:15px;
 background:white;
 border-radius:20px;
 margin:20px;
+box-shadow:0 10px 25px rgba(0,0,0,0.25);
 }
 
-.top-bar{
-display:flex;
-justify-content:space-between;
+.top-bar{display:flex;justify-content:space-between;}
+
+.top-bar button{
+background:#6fa8dc;
+color:white;
+padding:10px;
+border-radius:10px;
 }
+
+#titulo{text-align:center;margin:10px 0;font-size:20px;}
 
 #ops label{
 display:block;
@@ -82,16 +87,14 @@ border-radius:10px;
 <body>
 
 <div class="container">
-
 <h1>🐱 MENÚ EL MICHI 🐱</h1>
 
-<!-- 🔥 BOTONES CON PRECIOS -->
-<button class="crepas" onclick="crepas()">🥞 Crepas - $50</button>
-<button class="platanos" onclick="platanos()">🍌 Plátanos - desde $30</button>
-<button class="papas" onclick="papas()">🍟 Papas - desde $25</button>
-<button class="hamb" onclick="hamb()">🍔 Hamburguesas - desde $55</button>
-<button class="hot" onclick="hot()">🌭 Hot Dogs - desde $20</button>
-<button class="frap" onclick="frap()">🥤 Frappés - desde $30</button>
+<button class="crepas" onclick="crepas()">🥞 Crepas</button>
+<button class="platanos" onclick="platanos()">🍌 Plátanos</button>
+<button class="papas" onclick="papas()">🍟 Papas, salchipulpos y banderillas</button>
+<button class="hamb" onclick="hamb()">🍔 Hamburguesas</button>
+<button class="hot" onclick="hot()">🌭 Hot Dogs</button>
+<button class="frap" onclick="frap()">🥤 Frappés</button>
 
 <div id="carrito"></div>
 <h2 id="total">Total: $0</h2>
@@ -99,10 +102,8 @@ border-radius:10px;
 <button class="enviar" onclick="enviar()">📲 Enviar pedido</button>
 <button class="eliminar" onclick="eliminar()">❌ Eliminar seleccionado</button>
 <button class="vaciar" onclick="vaciar()">🗑 Vaciar todo</button>
-
 </div>
 
-<!-- MODAL -->
 <div id="modal" class="modal">
 <div class="modal-content">
 <div class="top-bar">
@@ -116,11 +117,23 @@ border-radius:10px;
 </div>
 
 <script>
-
 let carrito=[], seleccionado=null;
 let paso=0, flujo=[], data={}, maxSel=null;
 
-/* ================= FIX CORE ================= */
+function setCategoria(cat){
+document.getElementById("modal").className="modal "+cat;
+}
+
+function getEmoji(nombre){
+if(nombre.includes("Crepa")) return "🥞";
+if(nombre.includes("Plátanos")) return "🍌";
+if(nombre.includes("Papas")||nombre.includes("Salchipulpos")||nombre.includes("Banderilla")) return "🍟";
+if(nombre.includes("H.")) return "🍔";
+if(nombre.includes("Hot Dog")) return "🌭";
+if(nombre.includes("Frappé")) return "🥤";
+return "🍽️";
+}
+
 function abrir(titulo,ops,tipo,max=null){
 document.getElementById("modal").style.display="block";
 document.getElementById("titulo").innerText=titulo;
@@ -128,50 +141,43 @@ maxSel=max;
 
 let html="";
 ops.forEach(o=>{
-html+=`<label><input type="${tipo}" value="${o}" onclick="control(this)"> ${o}</label>`;
+html+=`<label><input type="${tipo}" name="opcion" value="${o}" onclick="control(this)"> ${o}</label>`;
 });
-
 document.getElementById("ops").innerHTML=html;
 }
 
-function cerrar(){
-document.getElementById("modal").style.display="none";
-paso=0;
-flujo=[];
-data={};
-}
-
-function back(){
-if(paso>0){
-paso--;
-flujo[paso]();
-}
-}
+function cerrar(){document.getElementById("modal").style.display="none";}
+function back(){if(paso>0){paso--;flujo[paso]();}}
 
 function getSel(){
 return [...document.querySelectorAll("#ops input:checked")].map(i=>i.value);
 }
 
 function control(input){
+let checks=document.querySelectorAll("#ops input");
+
+if(input.value==="Ninguna"||input.value==="Ninguno"){
+if(input.checked) checks.forEach(c=>{if(c!==input)c.checked=false;});
+}else{
+checks.forEach(c=>{
+if(c.value==="Ninguna"||c.value==="Ninguno") c.checked=false;
+});
+}
+
 if(maxSel && getSel().length>maxSel) input.checked=false;
 }
 
 function next(){
 let sel=getSel();
-if(!sel.length) return alert("Selecciona algo");
+if(!sel.length){alert("Selecciona algo");return;}
 
 data[flujo[paso].key]=sel;
 paso++;
 
-if(paso<flujo.length){
-flujo[paso]();
-}else{
-cerrar();
-flujo.fin();
-}
+if(paso<flujo.length) flujo[paso]();
+else{cerrar();flujo.fin();}
 }
 
-/* ================= CARRITO ================= */
 function add(txt,precio){
 carrito.push({nombre:txt,precio});
 render();
@@ -183,9 +189,9 @@ div.innerHTML="";
 let total=0;
 
 carrito.forEach((i,idx)=>{
-div.innerHTML+=`
-<p onclick="seleccionar(${idx})" class="${seleccionado===idx?'selected':''}">
-${i.nombre} - $${i.precio}
+let emoji=getEmoji(i.nombre);
+div.innerHTML+=`<p onclick="seleccionar(${idx})" class="${seleccionado===idx?'selected':''}">
+${emoji} $${i.precio} - ${i.nombre.replace(/\n/g,"<br>")}
 </p>`;
 total+=i.precio;
 });
@@ -193,34 +199,42 @@ total+=i.precio;
 document.getElementById("total").innerText="Total: $"+total;
 }
 
-function seleccionar(i){
-seleccionado=i;
-render();
+function seleccionar(i){seleccionado=i;render();}
+function eliminar(){if(seleccionado!=null){carrito.splice(seleccionado,1);seleccionado=null;render();}}
+function vaciar(){carrito=[];render();}
+
+/* ================= ENVIAR ================= */
+function enviar(){
+if(carrito.length===0){
+alert("El carrito está vacío");
+return;
 }
 
-function eliminar(){
-if(seleccionado!=null){
-carrito.splice(seleccionado,1);
-seleccionado=null;
-render();
-}
-}
+let txt="🧾 Pedido - El Michi 🐱\n\n";
+let total=0;
 
-function vaciar(){
-carrito=[];
-seleccionado=null;
-render();
+carrito.forEach(i=>{
+let emoji=getEmoji(i.nombre);
+txt+=emoji+" "+i.nombre+"\n\n";
+total+=i.precio;
+});
+
+txt+="💰 Total: $"+total;
+
+let url="https://wa.me/525532416109?text="+encodeURIComponent(txt);
+window.open(url,"_blank");
 }
 
 /* ================= CREPAS ================= */
 function crepas(){
+setCategoria("crepas");
 paso=0;data={};
 
 flujo=[
-()=>abrir("Bases",["Nutella","Lechera","Cajeta","Queso Philadelphia","Mermelada"],"checkbox",2),
+()=>abrir("Bases",["Nutella","Lechera","Cajeta","Queso Philadelphia","Mermelada fresa","Mermelada zarzamora"],"checkbox",2),
 ()=>abrir("Frutas",["Fresa","Plátano","Durazno","Uva","Ninguna"],"checkbox"),
-()=>abrir("Decoración",["Chocolate","Lechera","Ninguna"],"radio"),
-()=>abrir("Toppings",["Chocolate","Nuez","Ninguno"],"radio")
+()=>abrir("Decoración",["Hershey","Lechera","Ninguna"],"radio"),
+()=>abrir("Toppings",["Chocolate","Arcoiris","Gotas","Nuez","Lunetas","Ninguno"],"radio")
 ];
 
 flujo[0].key="bases";
@@ -229,7 +243,23 @@ flujo[2].key="dec";
 flujo[3].key="top";
 
 flujo.fin=function(){
-add("Crepa completa",50);
+let b=data.bases||[];
+let f=(data.frutas||[]).filter(x=>x!="Ninguna");
+
+let nb=b.length,nf=f.length;
+let precio=30;
+
+if(nb==1&&nf==1)precio=40;
+else if(nb==2&&nf==0)precio=35;
+else if(nb>=1&&nf>=2)precio=50;
+
+let txt="Crepa\nBase: "+b.join(", ");
+if(f.length) txt+="\nFrutas: "+f.join(", ");
+if(data.dec) txt+="\nDecoración: "+data.dec;
+if(data.top) txt+="\nToppings: "+data.top;
+
+txt+="\nPrecio: $"+precio;
+add(txt,precio);
 };
 
 flujo[0]();
@@ -237,17 +267,28 @@ flujo[0]();
 
 /* ================= PLÁTANOS ================= */
 function platanos(){
+setCategoria("platanos");
 paso=0;data={};
 
 flujo=[
-()=>abrir("Tipo",["Fritos ($30)","Árabes ($40)"],"radio")
+()=>abrir("Tipo",["Fritos ($30)","Árabes ($40)"],"radio"),
+()=>abrir("Complementos",["Crema","Lechera","Mermelada","Ninguna"],"checkbox"),
+()=>abrir("Toppings",["Chocolate","Arcoiris","Nuez","Lunetas","Ninguno"],"radio")
 ];
 
 flujo[0].key="tipo";
+flujo[1].key="comp";
+flujo[2].key="top";
 
 flujo.fin=function(){
-let t=data.tipo[0];
-add("Plátanos "+t,t.includes("30")?30:40);
+let precio=data.tipo[0].includes("Árabes")?40:30;
+
+let txt="Plátanos "+data.tipo;
+if(data.comp) txt+="\nComplementos: "+data.comp.join(", ");
+if(data.top) txt+="\nToppings: "+data.top;
+
+txt+="\nPrecio: $"+precio;
+add(txt,precio);
 };
 
 flujo[0]();
@@ -255,27 +296,38 @@ flujo[0]();
 
 /* ================= PAPAS ================= */
 function papas(){
+setCategoria("papas");
 paso=0;data={};
 
 flujo=[
 ()=>abrir("Tipo",[
 "Papas a la francesa ($35)",
-"Salchipulpos con papas ($45)",
+"Salchipulpos ($45)",
 "Banderilla con papas ($35)",
 "Banderilla sola ($25)"
-],"radio")
+],"radio"),
+()=>abrir("Aderezos",["Catsup","Queso","Salsa","Ninguna"],"checkbox")
 ];
 
 flujo[0].key="tipo";
+flujo[1].key="ad";
 
 flujo.fin=function(){
-let map={
+let precios={
 "Papas a la francesa ($35)":35,
-"Salchipulpos con papas ($45)":45,
+"Salchipulpos ($45)":45,
 "Banderilla con papas ($35)":35,
 "Banderilla sola ($25)":25
 };
-add(data.tipo[0],map[data.tipo[0]]);
+
+let t=data.tipo[0];
+let precio=precios[t];
+
+let txt=t;
+if(data.ad) txt+="\nAderezos: "+data.ad.join(", ");
+
+txt+="\nPrecio: $"+precio;
+add(txt,precio);
 };
 
 flujo[0]();
@@ -283,24 +335,47 @@ flujo[0]();
 
 /* ================= HAMBURGUESAS ================= */
 function hamb(){
+setCategoria("hamb");
 paso=0;data={};
 
 flujo=[
-()=>abrir("Tipo",["Clásica ($55)","Hawaiana ($60)","Especial ($65)"],"radio"),
-()=>abrir("Papas",["Con (+10)","Sin"],"radio")
+()=>abrir("Tipo",[
+"Clásica ($55/$65)",
+"Hawaiana ($60/$70)",
+"Especial ($65/$75)"
+],"radio"),
+()=>abrir("Sin",["Jamón","Queso","Lechuga","Cebolla","Ninguna"],"checkbox"),
+()=>abrir("Extras",["Piña $8","Tocino $8","Carne $10","Ninguna"],"checkbox"),
+()=>abrir("Papas",["Con papas","Sin papas"],"radio")
 ];
 
 flujo[0].key="tipo";
-flujo[1].key="papas";
+flujo[1].key="sin";
+flujo[2].key="extra";
+flujo[3].key="papas";
 
 flujo.fin=function(){
-let base=55;
-let t=data.tipo[0];
+let precios={
+"Clásica ($55/$65)":{0:55,1:65},
+"Hawaiana ($60/$70)":{0:60,1:70},
+"Especial ($65/$75)":{0:65,1:75}
+};
 
-if(t.includes("60")) base=60;
-if(t.includes("65")) base=65;
+let tipo=data.tipo[0];
+let base=precios[tipo];
 
-add(t,base+(data.papas[0].includes("Con")?10:0));
+let precio=data.papas[0]=="Con papas"?base[1]:base[0];
+
+(data.extra||[]).forEach(e=>{
+if(e.includes("$")) precio+=parseInt(e.split("$")[1]);
+});
+
+let txt=tipo+" "+data.papas[0];
+if(data.sin) txt+="\nSin: "+data.sin.join(", ");
+if(data.extra) txt+="\nExtras: "+data.extra.join(", ");
+
+txt+="\nPrecio: $"+precio;
+add(txt,precio);
 };
 
 flujo[0]();
@@ -308,15 +383,18 @@ flujo[0]();
 
 /* ================= HOT DOGS ================= */
 function hot(){
+setCategoria("hot");
 paso=0;data={};
 
 flujo=[
 ()=>abrir("Tipo",["Sencillo","Especial"],"radio"),
-()=>abrir("Cantidad",["1","2","3"],"radio")
+()=>abrir("Cantidad",["1 ($20/$25)","2 ($40/$50)","3 ($55/$70)"],"radio"),
+()=>abrir("Sin",["Mayonesa","Catsup","Jitomate","Cebolla","Ninguna"],"checkbox")
 ];
 
 flujo[0].key="tipo";
 flujo[1].key="cant";
+flujo[2].key="sin";
 
 flujo.fin=function(){
 let precios={
@@ -324,7 +402,16 @@ let precios={
 "Especial":{1:25,2:50,3:70}
 };
 
-add(data.tipo[0]+" x"+data.cant[0],precios[data.tipo[0]][data.cant[0]]);
+let tipo=data.tipo[0];
+let cant=parseInt(data.cant[0]);
+
+let precio=precios[tipo][cant];
+
+let txt=`Hot Dog ${tipo} x${cant}`;
+if(data.sin) txt+="\nSin: "+data.sin.join(", ");
+
+txt+="\nPrecio: $"+precio;
+add(txt,precio);
 };
 
 flujo[0]();
@@ -332,10 +419,16 @@ flujo[0]();
 
 /* ================= FRAPPÉS ================= */
 function frap(){
+setCategoria("frap");
 paso=0;data={};
 
 flujo=[
-()=>abrir("Tipo",["Oreo","Mazapán","Frapuccino","Fresa"],"radio"),
+()=>abrir("Tipo",[
+"Oreo ($30/$50)",
+"Mazapán ($30/$50)",
+"Frapuccino ($30/$50)",
+"Fresa ($35/$60)"
+],"radio"),
 ()=>abrir("Tamaño",["Chico","Grande"],"radio")
 ];
 
@@ -344,32 +437,23 @@ flujo[1].key="tam";
 
 flujo.fin=function(){
 let precios={
-"Oreo":{Chico:30,Grande:50},
-"Mazapán":{Chico:30,Grande:50},
-"Frapuccino":{Chico:30,Grande:50},
-"Fresa":{Chico:35,Grande:60}
+"Oreo ($30/$50)":{Chico:30,Grande:50},
+"Mazapán ($30/$50)":{Chico:30,Grande:50},
+"Frapuccino ($30/$50)":{Chico:30,Grande:50},
+"Fresa ($35/$60)":{Chico:35,Grande:60}
 };
 
-add(data.tipo[0]+" "+data.tam[0],precios[data.tipo[0]][data.tam[0]]);
+let t=data.tipo[0], s=data.tam[0];
+let precio=precios[t][s];
+
+let txt=`Frappé ${t} (${s})`;
+txt+="\nPrecio: $"+precio;
+
+add(txt,precio);
 };
 
 flujo[0]();
 }
-
-/* ================= ENVIAR ================= */
-function enviar(){
-let txt="Pedido%0A%0A";
-let total=0;
-
-carrito.forEach(i=>{
-txt+=i.nombre+"%0A";
-total+=i.precio;
-});
-
-txt+="%0ATotal: $"+total;
-window.open("https://wa.me/525532416109?text="+txt);
-}
-
 </script>
 
 </body>
