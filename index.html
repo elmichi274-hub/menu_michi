@@ -242,7 +242,7 @@ let b=data.bases||[];
 let f=(data.frutas||[]).filter(x=>x!="Ninguna");
 
 // VALIDACIÓN
-if(b.length>=2 && f.length>=4){
+if(b.length>=2 && f.length>=3){
 alert("⚠️ PARA LA CREPA FRUTAL PUEDE LLEVAR MÁXIMO 1 BASE");
 paso=0;
 flujo[0]();
@@ -252,24 +252,10 @@ return;
 let nb=b.length,nf=f.length;
 let precio=30;
 
-// 🔥 NUEVAS REGLAS DE $50 (PRIMERO)
-if(
-(nb==1 && nf==4) ||
-(nb==1 && nf==3) ||
-(nb==2 && nf==2)
-){
-precio=50;
-}
-
-// REGLAS ORIGINALES
-else if(nb==1&&nf==1)precio=40;
+if(nb==1&&nf==1)precio=40;
 else if(nb==2&&nf==0)precio=35;
 else if((nb==1&&nf==2)||(nb==2&&nf==1))precio=45;
-else if(nb==1&&nf==0)precio=30;
-else if(nb==2&&nf==3)precio=50;
-
-// OPCIONAL (por si agregas más combinaciones grandes)
-else if(nb>=2&&nf>=3)precio=50;
+else if(nb>=1&&nf>=4)precio=50;
 
 let txt="Crepa\nBase: "+b.join(", ");
 if(data.frutas) txt+="\nFruta: "+data.frutas.join(", ");
@@ -289,7 +275,7 @@ setCategoria("platanos");
 paso=0;data={};
 
 flujo=[
-()=>abrir("Tipo",["Fritos $30","Árabes $40"],"radio"),
+()=>abrir("Tipo",["Fritos","Árabes"],"radio"),
 ()=>abrir("Complementos",["Crema","Lechera","Mermelada de fresa","Ninguna"],"checkbox"),
 ()=>abrir("Toppings",["Granillo de chocolate","Granillo de arcoiris","Nuez","Lunetitas","Gotas de chocolate","Ninguno"],"radio")
 ];
@@ -318,7 +304,7 @@ setCategoria("papas");
 paso=0;data={};
 
 flujo=[
-()=>abrir("Tipo",["Papas a la francesa $35","Salchipulpos con papas $45","Banderilla con papas $35","Banderilla sola $25"],"radio"),
+()=>abrir("Tipo",["Papas a la francesa","Salchipulpos con papas","Banderilla con papas","Banderilla sola"],"radio"),
 ()=>abrir("Aderezos",["Catsup","Queso amarillo","Salsa","Ninguna"],"checkbox")
 ];
 
@@ -350,10 +336,10 @@ setCategoria("hamb");
 paso=0;data={};
 
 flujo=[
-()=>abrir("Tipo de Hamburguesa",["Clásica $55","Hawaiana $60","Especial $65"],"radio"),
-()=>abrir("Omitir ingredientes",["Jamón","Queso amarillo","Queso Oaxaca","Chiles en vinagre","Jitomate","Cebolla","Lechuga","Mayonesa","Mostaza","Catsup","Con todo"],"checkbox"),
+()=>abrir("Tipo de Hamburguesa",["Clásica","Hawaiana","Especial"],"radio"),
+()=>abrir("Omitir ingredientes",["Jamón","Queso amarillo","Queso Oaxaca","Chiles en vinagre","Jitomate","Cebolla","Lechuga","Mayonesa","Mostaza","Catsup","Ninguna"],"checkbox"),
 ()=>abrir("Extras",["Piña $8","Tocino $8","Salchicha $8","Carne $10","Ninguna"],"checkbox"),
-()=>abrir("¿Con papas o sin papas?",["Con papas +$10","Sin papas"],"radio"),
+()=>abrir("¿Con papas o sin papas?",["Con papas","Sin papas"],"radio"),
 ()=> {
 if(data.papas[0]==="Con papas"){
 abrir("Aderezos de papas",["Catsup","Queso amarillo","Salsa","Ninguna"],"checkbox");
