@@ -242,7 +242,7 @@ let b=data.bases||[];
 let f=(data.frutas||[]).filter(x=>x!="Ninguna");
 
 // VALIDACIÓN
-if(b.length>=2 && f.length>=3){
+if(b.length>=2 && f.length>=4){
 alert("⚠️ PARA LA CREPA FRUTAL PUEDE LLEVAR MÁXIMO 1 BASE");
 paso=0;
 flujo[0]();
@@ -256,6 +256,9 @@ if(nb==1&&nf==1)precio=40;
 else if(nb==2&&nf==0)precio=35;
 else if((nb==1&&nf==2)||(nb==2&&nf==1))precio=45;
 else if(nb>=1&&nf>=4)precio=50;
+else if(nb>=2&&nf>=2)precio=50;
+else if(nb>=1&&nf>=3)precio=50;
+else if(nb>=2&&nf>=3)precio=50;
 
 let txt="Crepa\nBase: "+b.join(", ");
 if(data.frutas) txt+="\nFruta: "+data.frutas.join(", ");
