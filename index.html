@@ -23,6 +23,7 @@ border:none;
 border-radius:10px;
 font-weight:bold;
 cursor:pointer;
+text-align:left;
 }
 
 .crepas{background:#ffd966;}
@@ -32,9 +33,9 @@ cursor:pointer;
 .hot{background:#93c47d;}
 .frap{background:#76a5af;}
 
-.enviar{background:#6fa8dc;color:white;}
-.eliminar{background:#e06666;color:white;}
-.vaciar{background:#ea9999;color:white;}
+.enviar{background:#6fa8dc;color:white;text-align:center;}
+.eliminar{background:#e06666;color:white;text-align:center;}
+.vaciar{background:#ea9999;color:white;text-align:center;}
 
 #carrito{
 background:white;
@@ -81,14 +82,16 @@ border-radius:10px;
 <body>
 
 <div class="container">
+
 <h1>🐱 MENÚ EL MICHI 🐱</h1>
 
-<button class="crepas" onclick="crepas()">🥞 Crepas</button>
-<button class="platanos" onclick="platanos()">🍌 Plátanos</button>
-<button class="papas" onclick="papas()">🍟 Papas</button>
-<button class="hamb" onclick="hamb()">🍔 Hamburguesas</button>
-<button class="hot" onclick="hot()">🌭 Hot Dogs</button>
-<button class="frap" onclick="frap()">🥤 Frappés</button>
+<!-- 🔥 BOTONES CON PRECIOS -->
+<button class="crepas" onclick="crepas()">🥞 Crepas - $50</button>
+<button class="platanos" onclick="platanos()">🍌 Plátanos - desde $30</button>
+<button class="papas" onclick="papas()">🍟 Papas - desde $25</button>
+<button class="hamb" onclick="hamb()">🍔 Hamburguesas - desde $55</button>
+<button class="hot" onclick="hot()">🌭 Hot Dogs - desde $20</button>
+<button class="frap" onclick="frap()">🥤 Frappés - desde $30</button>
 
 <div id="carrito"></div>
 <h2 id="total">Total: $0</h2>
@@ -96,6 +99,7 @@ border-radius:10px;
 <button class="enviar" onclick="enviar()">📲 Enviar pedido</button>
 <button class="eliminar" onclick="eliminar()">❌ Eliminar seleccionado</button>
 <button class="vaciar" onclick="vaciar()">🗑 Vaciar todo</button>
+
 </div>
 
 <!-- MODAL -->
@@ -181,7 +185,7 @@ let total=0;
 carrito.forEach((i,idx)=>{
 div.innerHTML+=`
 <p onclick="seleccionar(${idx})" class="${seleccionado===idx?'selected':''}">
-${i.nombre}
+${i.nombre} - $${i.precio}
 </p>`;
 total+=i.precio;
 });
@@ -208,7 +212,7 @@ seleccionado=null;
 render();
 }
 
-/* ================= CREPAS (ORIGINAL CONSERVADO) ================= */
+/* ================= CREPAS ================= */
 function crepas(){
 paso=0;data={};
 
@@ -350,6 +354,7 @@ add(data.tipo[0]+" "+data.tam[0],precios[data.tipo[0]][data.tam[0]]);
 };
 
 flujo[0]();
+}
 
 /* ================= ENVIAR ================= */
 function enviar(){
