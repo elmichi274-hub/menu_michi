@@ -289,7 +289,7 @@ setCategoria("platanos");
 paso=0;data={};
 
 flujo=[
-()=>abrir("Tipo",["Fritos","Árabes"],"radio"),
+()=>abrir("Tipo",["Fritos $30","Árabes $40"],"radio"),
 ()=>abrir("Complementos",["Crema","Lechera","Mermelada de fresa","Ninguna"],"checkbox"),
 ()=>abrir("Toppings",["Granillo de chocolate","Granillo de arcoiris","Nuez","Lunetitas","Gotas de chocolate","Ninguno"],"radio")
 ];
@@ -318,7 +318,7 @@ setCategoria("papas");
 paso=0;data={};
 
 flujo=[
-()=>abrir("Tipo",["Papas a la francesa","Salchipulpos con papas","Banderilla con papas","Banderilla sola"],"radio"),
+()=>abrir("Tipo",["Papas a la francesa $35","Salchipulpos con papas $45","Banderilla con papas $35","Banderilla sola $25"],"radio"),
 ()=>abrir("Aderezos",["Catsup","Queso amarillo","Salsa","Ninguna"],"checkbox")
 ];
 
@@ -350,10 +350,10 @@ setCategoria("hamb");
 paso=0;data={};
 
 flujo=[
-()=>abrir("Tipo de Hamburguesa",["Clásica","Hawaiana","Especial"],"radio"),
-()=>abrir("Omitir ingredientes",["Jamón","Queso amarillo","Queso Oaxaca","Chiles en vinagre","Jitomate","Cebolla","Lechuga","Mayonesa","Mostaza","Catsup","Ninguna"],"checkbox"),
+()=>abrir("Tipo de Hamburguesa",["Clásica $55","Hawaiana $60","Especial $65"],"radio"),
+()=>abrir("Omitir ingredientes",["Jamón","Queso amarillo","Queso Oaxaca","Chiles en vinagre","Jitomate","Cebolla","Lechuga","Mayonesa","Mostaza","Catsup","Con todo"],"checkbox"),
 ()=>abrir("Extras",["Piña $8","Tocino $8","Salchicha $8","Carne $10","Ninguna"],"checkbox"),
-()=>abrir("¿Con papas o sin papas?",["Con papas","Sin papas"],"radio"),
+()=>abrir("¿Con papas o sin papas?",["Con papas +$10","Sin papas"],"radio"),
 ()=> {
 if(data.papas[0]==="Con papas"){
 abrir("Aderezos de papas",["Catsup","Queso amarillo","Salsa","Ninguna"],"checkbox");
