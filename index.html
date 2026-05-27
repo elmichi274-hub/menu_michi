@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
@@ -6,1601 +6,555 @@
 <title>MENÚ EL MICHI 🐱</title>
 
 <style>
-:root{
-  --bg1:#0f172a;
-  --bg2:#111827;
-  --card:rgba(255,255,255,.14);
-  --card-strong:rgba(255,255,255,.22);
-  --line:rgba(255,255,255,.18);
-  --text:#f8fafc;
-  --muted:rgba(248,250,252,.78);
-  --shadow:0 18px 50px rgba(0,0,0,.28);
-  --radius:28px;
-  --radius-sm:18px;
-  --accent:#60a5fa;
-  --good:#22c55e;
-  --warn:#f59e0b;
-  --bad:#ef4444;
-  --glass-blur:blur(18px);
-}
-
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{min-height:100%}
-body{
-  font-family:Inter, "Segoe UI", Arial, sans-serif;
-  color:var(--text);
-  background:
-    radial-gradient(circle at 15% 15%, rgba(96,165,250,.28), transparent 26%),
-    radial-gradient(circle at 85% 12%, rgba(34,197,94,.20), transparent 22%),
-    radial-gradient(circle at 20% 85%, rgba(245,158,11,.16), transparent 24%),
-    linear-gradient(160deg, #08111f 0%, #0b1220 35%, #0f172a 100%);
-  background-attachment:fixed;
-  padding:10px;
-  overflow-x:hidden;
-}
-
-body::before{
-  content:"";
-  position:fixed;
-  inset:-30%;
-  background:
-    radial-gradient(circle at 30% 30%, rgba(255,255,255,.05), transparent 20%),
-    radial-gradient(circle at 70% 70%, rgba(255,255,255,.04), transparent 18%);
-  filter:blur(30px);
-  pointer-events:none;
-  z-index:0;
-}
-
-body::after{
-  content:"";
-  position:fixed;
-  inset:0;
-  background-image:
-    radial-gradient(rgba(255,255,255,.08) 1px, transparent 1px);
-  background-size:24px 24px;
-  opacity:.12;
-  pointer-events:none;
-  z-index:0;
-}
-
-.container{
-  position:relative;
-  z-index:1;
-  max-width:500px;
-  margin:0 auto;
-  padding:10px;
-  background:linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.08));
-  border:1px solid var(--line);
-  border-radius:32px;
-  box-shadow:var(--shadow);
-  backdrop-filter:var(--glass-blur);
-  -webkit-backdrop-filter:var(--glass-blur);
-}
-
-.hero{
-  display:grid;
-  gap:10px;
-  margin-bottom:8px;
-  padding:12px;
-  border-radius:24px;
-  background:
-    linear-gradient(135deg, rgba(255,255,255,.16), rgba(255,255,255,.08)),
-    radial-gradient(circle at top right, rgba(96,165,250,.35), transparent 35%);
-  border:1px solid rgba(255,255,255,.12);
-  box-shadow:
-    0 10px 30px rgba(0,0,0,.20),
-    inset 0 1px 0 rgba(255,255,255,.08);
-  position:relative;
-  overflow:hidden;
-}
-
-.hero::before{
-  content:"";
-  position:absolute;
-  width:180px;
-  height:180px;
-  background:rgba(255,255,255,.06);
-  border-radius:50%;
-  top:-80px;
-  right:-80px;
-  filter:blur(10px);
-}
-
-.hero-top{
-  display:flex;
-  align-items:flex-start;
-  justify-content:space-between;
-  gap:14px;
-}
-
-.brand{
-  display:flex;
-  align-items:center;
-  gap:12px;
-}
-
-.logo{
-  width:48px;
-  height:48px;
-  border-radius:16px;
-  display:grid;
-  place-items:center;
-  font-size:24px;
-  background:linear-gradient(135deg,#60a5fa,#2563eb);
-  color:white;
-  box-shadow:
-    0 0 20px rgba(96,165,250,.45),
-    0 8px 18px rgba(0,0,0,.20);
-  animation:float 3s ease-in-out infinite;
-  flex:0 0 auto;
-}
-
-@keyframes float{
-  0%,100%{transform:translateY(0)}
-  50%{transform:translateY(-4px)}
-}
-
-.brand h1{
-  font-size:22px;
-  line-height:1;
-  font-weight:900;
-  letter-spacing:.5px;
-  background:linear-gradient(90deg,#fff,#93c5fd);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-}
-
-.subtitle{
-  color:rgba(255,255,255,.75);
-  margin-top:4px;
-  font-size:12px;
-  line-height:1.4;
-}
-
-.badges{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-  justify-content:flex-end;
-}
-
-.badge{
-  padding:8px 11px;
-  border-radius:999px;
-  font-size:11px;
-  font-weight:800;
-  background:rgba(255,255,255,.12);
-  border:1px solid rgba(255,255,255,.15);
-  color:var(--text);
-  box-shadow:0 8px 20px rgba(0,0,0,.10);
-  white-space:nowrap;
-}
-
-.stats{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:8px;
-  margin-top:4px;
-}
-
-.stat{
-  padding:10px;
-  border-radius:18px;
-  background:rgba(255,255,255,.08);
-  border:1px solid rgba(255,255,255,.10);
-  transition:.2s;
-  backdrop-filter:blur(8px);
-}
-
-.stat:hover{
-  transform:translateY(-2px);
-  background:rgba(255,255,255,.12);
-}
-
-.stat .label{
-  font-size:11px;
-  color:var(--muted);
-  margin-bottom:2px;
-}
-
-.stat .value{
-  font-size:18px;
-  font-weight:800;
-  line-height:1.1;
-}
-
-.section{
-  margin-top:12px;
-  padding:14px;
-  border-radius:26px;
-  background:rgba(255,255,255,.08);
-  border:1px solid rgba(255,255,255,.12);
-}
-
-.section-title{
-  display:flex;
-  align-items:flex-end;
-  justify-content:space-between;
-  gap:12px;
-  margin-bottom:12px;
-}
-
-.section-title h2{
-  font-size:18px;
-  color:var(--text);
-  letter-spacing:.2px;
-}
-
-.section-title span{
-  font-size:12px;
-  color:var(--muted);
-}
-
-input,select,button{
-  font:inherit;
-}
-
-input,select{
-  width:100%;
-  padding:10px 12px;
-  margin:7px 0;
-  border:none;
-  border-radius:18px;
-  font-size:16px;
-  color:#0f172a;
-  background:rgba(255,255,255,.94);
-  outline:none;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.45);
-  transition:transform .2s ease, box-shadow .2s ease, background .2s ease;
-}
-
-input:focus,select:focus{
-  transform:translateY(-1px);
-  box-shadow:0 0 0 4px rgba(96,165,250,.20), inset 0 1px 0 rgba(255,255,255,.45);
-}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:Arial;background:#c9daf8;}
+.container{max-width:500px;margin:auto;padding:10px;}
+h1{text-align:center;margin:10px;}
+h2{text-align:center;}
 
 button{
-  width:100%;
-  padding:10px 12px;
-  margin:6px 0;
-  border:none;
-  border-radius:18px;
-  font-size:16px;
-  font-weight:800;
-  cursor:pointer;
-  color:#0f172a;
-  transition:transform .18s ease, filter .18s ease, box-shadow .18s ease, opacity .18s ease;
-  box-shadow:0 10px 24px rgba(0,0,0,.12);
-  position:relative;
-  overflow:hidden;
+width:100%;
+padding:15px;
+margin:5px 0;
+font-size:18px;
+border:none;
+border-radius:10px;
+font-weight:bold;
+cursor:pointer;
 }
 
-button::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:linear-gradient(120deg, transparent 0%, rgba(255,255,255,.18) 50%, transparent 100%);
-  transform:translateX(-130%);
-}
+.crepas{background:#ffd966;}
+.platanos{background:#ffb347;}
+.papas{background:#ff9966;}
+.hamb{background:#f6b26b;}
+.hot{background:#93c47d;}
+.frap{background:#76a5af;}
 
-button:hover{
-  transform:translateY(-1px);
-  filter:saturate(1.06);
-}
-
-button:hover::after{
-  animation:shine .9s ease;
-}
-
-button:active{
-  transform:translateY(0) scale(.99);
-  opacity:.96;
-}
-
-@keyframes shine{
-  to{transform:translateX(130%);}
-}
-
-.crepas{background:linear-gradient(135deg,#ffe082,#ffca28)}
-.platanos{background:linear-gradient(135deg,#ffd180,#ffab40)}
-.papas{background:linear-gradient(135deg,#ffab91,#ff8a65)}
-.hamb{background:linear-gradient(135deg,#ffccbc,#ffab91)}
-.hot{background:linear-gradient(135deg,#c5e1a5,#9ccc65)}
-.frap{background:linear-gradient(135deg,#80deea,#4dd0e1)}
-
-.enviar{background:linear-gradient(135deg,#4ade80,#22c55e);color:white}
-.eliminar{background:linear-gradient(135deg,#fb7185,#ef4444);color:white}
-.vaciar{background:linear-gradient(135deg,#fda4af,#f87171);color:white}
-
-.quick-actions{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:10px;
-}
-
-.quick-actions button{
-  padding:13px 12px;
-  font-size:14px;
-}
-
-#estadoUbicacion{
-  background:rgba(255,255,255,.90);
-  color:#0f172a;
-  padding:12px 14px;
-  border-radius:18px;
-  margin:10px 0 8px;
-  font-size:14px;
-  line-height:1.45;
-  border:1px solid rgba(15,23,42,.06);
-}
+.enviar{background:#6fa8dc;color:white;}
+.eliminar{background:#e06666;color:white;}
+.vaciar{background:#ea9999;color:white;}
 
 #carrito{
-  background:rgba(255,255,255,.95);
-  color:#0f172a;
-  padding:10px;
-  border-radius:24px;
-  margin:12px 0;
-  max-height:190px;
-  overflow:auto;
-  min-height:90px;
-  border:1px solid rgba(15,23,42,.08);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.55);
+background:white;
+padding:10px;
+border-radius:10px;
+margin:10px 0;
+max-height:200px;
+overflow:auto;
 }
 
-#carrito p{
-  padding:12px 12px;
-  margin:0 0 8px 0;
-  border-radius:16px;
-  cursor:pointer;
-  background:linear-gradient(180deg, #ffffff, #f8fafc);
-  border:1px solid rgba(15,23,42,.06);
-  transition:transform .15s ease, background .15s ease, border-color .15s ease;
-  line-height:1.35;
+#carrito::-webkit-scrollbar {
+width:6px;
+}
+#carrito::-webkit-scrollbar-thumb {
+background:#999;
+border-radius:10px;
 }
 
-#carrito p:hover{
-  transform:translateY(-1px);
-  background:#eff6ff;
-  border-color:#bfdbfe;
-}
-
-.selected{
-  background:linear-gradient(180deg, #dcfce7, #bbf7d0) !important;
-  border:2px solid #22c55e !important;
-}
-
-#total{
-  text-align:center;
-  font-size:clamp(26px, 5vw, 34px);
-  font-weight:900;
-  color:#fff;
-  margin:14px 0 10px;
-  text-shadow:0 6px 18px rgba(0,0,0,.22);
-}
-
-.footer-note{
-  text-align:center;
-  font-size:12px;
-  color:rgba(255,255,255,.76);
-  margin-top:10px;
-}
+.selected{background:#d9ead3;}
 
 .modal{
-  position:fixed;
-  inset:0;
-  display:none;
-  overflow:auto;
-  background:rgba(2,6,23,.52);
-  backdrop-filter:blur(8px);
-  -webkit-backdrop-filter:blur(8px);
-  z-index:50;
-  animation:fade .18s ease;
-}
-
-@keyframes fade{
-  from{opacity:0}
-  to{opacity:1}
+position:fixed;
+top:0;left:0;
+width:100%;height:100%;
+display:none;
+overflow:auto;
 }
 
 .modal-content{
-  width:min(720px, calc(100% - 24px));
-  margin:18px auto;
-  padding:10px;
-  background:linear-gradient(180deg, rgba(255,255,255,.98), rgba(248,250,252,.98));
-  color:#0f172a;
-  border-radius:30px;
-  box-shadow:0 24px 60px rgba(0,0,0,.30);
-  border:1px solid rgba(255,255,255,.60);
-  animation:rise .18s ease;
+padding:15px;
+background:white;
+border-radius:20px;
+margin:20px;
+box-shadow:0 10px 25px rgba(0,0,0,0.25);
 }
 
-@keyframes rise{
-  from{transform:translateY(16px);opacity:0}
-  to{transform:translateY(0);opacity:1}
-}
-
-.top-bar{
-  display:flex;
-  gap:10px;
-  justify-content:space-between;
-}
-
+.top-bar{display:flex;justify-content:space-between;}
 .top-bar button{
-  width:50%;
-  background:linear-gradient(135deg,#e0f2fe,#bfdbfe);
-  color:#0f172a;
-  box-shadow:none;
-  border:1px solid rgba(96,165,250,.20);
+background:#6fa8dc;
+color:white;
+padding:10px;
+border-radius:10px;
 }
 
-#titulo{
-  text-align:center;
-  margin:16px 0 14px;
-  font-size:24px;
-  font-weight:900;
-  letter-spacing:.2px;
-}
-
-#ops{
-  display:grid;
-  gap:10px;
-}
+#titulo{text-align:center;margin:10px 0;font-size:20px;}
 
 #ops label{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  padding:14px 14px;
-  background:#f8fafc;
-  border:1px solid rgba(15,23,42,.08);
-  border-radius:18px;
-  transition:transform .15s ease, background .15s ease, border-color .15s ease;
-  cursor:pointer;
+display:block;
+padding:10px;
+margin:5px 0;
+background:#f3f3f3;
+border-radius:10px;
 }
-
-#ops label:hover{
-  transform:translateY(-1px);
-  background:#eff6ff;
-  border-color:#bfdbfe;
-}
-
-#ops input{
-  width:auto;
-  margin:0;
-  accent-color:#2563eb;
-  box-shadow:none;
-}
-
-.modal .next-btn{
-  margin-top:14px;
-  background:linear-gradient(135deg,#60a5fa,#3b82f6);
-  color:white;
-}
-
-.toast-wrap{
-  position:fixed;
-  right:16px;
-  bottom:16px;
-  z-index:90;
-  display:grid;
-  gap:10px;
-  width:min(92vw, 360px);
-  pointer-events:none;
-}
-
-.toast{
-  pointer-events:none;
-  background:rgba(15,23,42,.92);
-  color:#fff;
-  padding:10px 12px;
-  border-radius:18px;
-  border:1px solid rgba(255,255,255,.12);
-  box-shadow:0 18px 40px rgba(0,0,0,.24);
-  transform:translateY(8px);
-  opacity:0;
-  animation:toastIn .22s ease forwards;
-  font-size:14px;
-  line-height:1.35;
-}
-
-.toast.good{border-left:5px solid var(--good)}
-.toast.warn{border-left:5px solid var(--warn)}
-.toast.bad{border-left:5px solid var(--bad)}
-
-@keyframes toastIn{
-  to{opacity:1;transform:translateY(0)}
-}
-
-.pulse{
-  animation:pulse 1.7s ease-in-out infinite;
-}
-
-@keyframes pulse{
-  0%,100%{transform:translateY(0)}
-  50%{transform:translateY(-2px)}
-}
-
-.scroll-hint{
-  font-size:12px;
-  color:rgba(255,255,255,.70);
-  text-align:right;
-  margin-top:4px;
-}
-
-@media (max-width:640px){
-  body{padding:10px}
-  .container{padding:12px;border-radius:26px}
-  .hero{padding:14px}
-  .hero-top{flex-direction:column;align-items:flex-start}
-  .badges{justify-content:flex-start}
-  .stats{grid-template-columns:1fr}
-  .quick-actions{grid-template-columns:1fr}
-  .section{padding:14px}
-  .modal-content{width:calc(100% - 14px);padding:10px;border-radius:24px;margin:10px auto}
-  .top-bar{flex-direction:column}
-  .top-bar button{width:100%}
-  button{font-size:15px}
-}
-
-::-webkit-scrollbar{width:8px;height:8px}
-::-webkit-scrollbar-thumb{background:rgba(148,163,184,.75);border-radius:999px}
-::-webkit-scrollbar-track{background:rgba(15,23,42,.08)}
 </style>
 </head>
 
 <body>
 
 <div class="container">
+<h1>🐱 MENÚ EL MICHI 🐱</h1>
 
-  <div class="hero">
-    <div class="hero-top">
-      <div class="brand">
-        <div class="logo">🐱</div>
-        <div>
-          <h1>MENÚ EL MICHI</h1>
-          <div class="subtitle">Rápido • Moderno • Delicioso ✨</div>
-        </div>
-      </div>
-      <div class="badges">
-        <div class="badge">🔥 Popular</div>
-        <div class="badge">📲 WhatsApp</div>
-      </div>
-    </div>
+<button class="crepas" onclick="crepas()">🥞 Crepas</button>
+<button class="platanos" onclick="platanos()">🍌 Plátanos</button>
+<button class="papas" onclick="papas()">🍟 Papas, salchipulpos y banderillas</button>
+<button class="hamb" onclick="hamb()">🍔 Hamburguesas</button>
+<button class="hot" onclick="hot()">🌭 Hot Dogs</button>
+<button class="frap" onclick="frap()">🥤 Frappés</button>
 
-    <div class="stats">
-      <div class="stat">
-        <div class="label">Artículos en carrito</div>
-        <div class="value" id="statItems">0</div>
-      </div>
-      <div class="stat">
-        <div class="label">Total actual</div>
-        <div class="value" id="statTotal">$0</div>
-      </div>
-      <div class="stat">
-        <div class="label">Entrega</div>
-        <div class="value" id="statEntrega">Local</div>
-      </div>
-    </div>
-  </div>
+<div id="carrito"></div>
+<h2 id="total">Total: $0</h2>
 
-  <div class="section">
-    <div class="section-title">
-      <h2>🚚 Tipo de pedido</h2>
-      <span>Selecciona tu forma de entrega</span>
-    </div>
-
-    <select id="tipoEntrega" onchange="verificarEntrega()">
-      <option value="Recoger en local">🏪 Recoger en local</option>
-      <option value="A domicilio">🏠 A domicilio</option>
-    </select>
-
-    <input type="text" id="nombreCliente" placeholder="👤 Nombre del cliente">
-
-    <select id="pago" onchange="actualizarResumen()">
-      <option>Efectivo</option>
-      <option>Transferencia</option>
-    </select>
-
-    <p id="estadoUbicacion">📍 Si eliges a domicilio, se pedirá tu ubicación al enviar el pedido</p>
-
-    <div class="quick-actions">
-      <button class="crepas pulse" onclick="crepas()">🥞 Crepas</button>
-      <button class="platanos pulse" onclick="platanos()">🍌 Plátanos</button>
-      <button class="papas pulse" onclick="papas()">🍟 Papas</button>
-    </div>
-    <div class="quick-actions" style="margin-top:10px;">
-      <button class="hamb pulse" onclick="hamb()">🍔 Hamburguesas</button>
-      <button class="hot pulse" onclick="hot()">🌭 Hot Dogs</button>
-      <button class="frap pulse" onclick="frap()">🥤 Frappés</button>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">
-      <h2>🛒 Carrito</h2>
-      <span>Toca un producto para seleccionarlo</span>
-    </div>
-
-    <div id="carrito"></div>
-
-    <div id="total">Total: $0</div>
-    <div class="scroll-hint">Desliza para ver más si tu pedido crece mucho ✨</div>
-
-    <button class="enviar" onclick="enviar()">📲 Enviar pedido</button>
-    <button class="eliminar" onclick="eliminar()">❌ Eliminar seleccionado</button>
-    <button class="vaciar" onclick="vaciar()">🗑 Vaciar todo</button>
-  </div>
-
+<button class="enviar" onclick="enviar()">📲 Enviar pedido</button>
+<button class="eliminar" onclick="eliminar()">❌ Eliminar seleccionado</button>
+<button class="vaciar" onclick="vaciar()">🗑 Vaciar todo</button>
 </div>
 
 <div id="modal" class="modal">
-  <div class="modal-content">
-    <div class="top-bar">
-      <button onclick="back()">⬅ Atrás</button>
-      <button onclick="cerrar()">❌ Cerrar</button>
-    </div>
-
-    <h3 id="titulo"></h3>
-    <div id="ops"></div>
-    <button class="next-btn" onclick="next()">Siguiente ➡️</button>
-  </div>
+<div class="modal-content">
+<div class="top-bar">
+<button onclick="back()">⬅</button>
+<button onclick="cerrar()">❌</button>
+</div>
+<h3 id="titulo"></h3>
+<div id="ops"></div>
+<button onclick="next()">Siguiente ➡️</button>
+</div>
 </div>
 
-<div class="toast-wrap" id="toastWrap"></div>
-
 <script>
-const PEDIDOS_KEY = "michi_pedidos_v1";
-const PEDIDOS_HORAS_BORRAR = 12;
-
-let carrito=[];
-let seleccionado=null;
-
-let paso=0;
-let flujo=[];
-let data={};
-let maxSel=null;
-
-render();
-actualizarResumen();
-
-/* ===== SONIDOS SUAVES TIPO APP MODERNA ===== */
-let audioCtx = null;
-
-function getAudioCtx(){
-  if(!audioCtx){
-    const AC = window.AudioContext || window.webkitAudioContext;
-    if(!AC) return null;
-    audioCtx = new AC();
-  }
-  if(audioCtx.state === "suspended"){
-    audioCtx.resume().catch(()=>{});
-  }
-  return audioCtx;
-}
-
-function playTone(freq, duration=0.09, type="sine", volume=0.03, ramp=0.015, delay=0){
-  const ctx = getAudioCtx();
-  if(!ctx) return;
-
-  const osc = ctx.createOscillator();
-  const gain = ctx.createGain();
-  const start = ctx.currentTime + delay;
-
-  osc.type = type;
-  osc.frequency.setValueAtTime(freq, start);
-
-  gain.gain.setValueAtTime(0.0001, start);
-  gain.gain.exponentialRampToValueAtTime(volume, start + ramp);
-  gain.gain.exponentialRampToValueAtTime(0.0001, start + duration);
-
-  osc.connect(gain);
-  gain.connect(ctx.destination);
-
-  osc.start(start);
-  osc.stop(start + duration + 0.02);
-}
-
-function soundTap(){
-  playTone(760, 0.06, "sine", 0.018, 0.012);
-}
-
-function soundOpen(){
-  playTone(520, 0.08, "sine", 0.020, 0.015);
-  playTone(660, 0.08, "sine", 0.018, 0.015, 0.06);
-}
-
-function soundAdd(){
-  playTone(523.25, 0.08, "triangle", 0.022, 0.012);
-  playTone(659.25, 0.09, "triangle", 0.020, 0.012, 0.07);
-  playTone(783.99, 0.10, "triangle", 0.018, 0.012, 0.15);
-}
-
-function soundSuccess(){
-  playTone(392, 0.10, "sine", 0.020, 0.015);
-  playTone(523.25, 0.12, "sine", 0.020, 0.015, 0.10);
-  playTone(659.25, 0.14, "sine", 0.020, 0.015, 0.22);
-}
-
-function soundDelete(){
-  playTone(370, 0.11, "sine", 0.018, 0.015);
-  playTone(247, 0.12, "sine", 0.016, 0.015, 0.08);
-}
-
-function soundError(){
-  playTone(330, 0.12, "sine", 0.018, 0.015);
-  playTone(247, 0.16, "sine", 0.016, 0.10);
-}
-
-document.addEventListener("click",(e)=>{
-  if(e.target.tagName==="BUTTON"){
-    soundTap();
-  }
-});
-
-function toast(msg,type="good"){
-  if(type==="good") soundSuccess();
-  if(type==="bad" || type==="warn") soundError();
-
-  const wrap=document.getElementById("toastWrap");
-  const el=document.createElement("div");
-  el.className=`toast ${type}`;
-  el.textContent=msg;
-  wrap.appendChild(el);
-  setTimeout(()=>{ el.style.opacity="0"; el.style.transform="translateY(8px)"; }, 2600);
-  setTimeout(()=>{ el.remove(); }, 3200);
-}
-
-/* Reemplaza alert nativo con sonido de error antes de mostrarlo */
-const nativeAlert = window.alert.bind(window);
-window.alert = function(msg){
-  soundError();
-  nativeAlert(msg);
-};
-
-function leerPedidosGuardados(){
-  const ahora = Date.now();
-  const pedidos = JSON.parse(localStorage.getItem(PEDIDOS_KEY) || "[]");
-  const vigentes = pedidos.filter(p => !p.expiresAt || p.expiresAt > ahora);
-  if(vigentes.length !== pedidos.length){
-    localStorage.setItem(PEDIDOS_KEY, JSON.stringify(vigentes));
-  }
-  return vigentes;
-}
-
-function guardarPedidos(pedidos){
-  localStorage.setItem(PEDIDOS_KEY, JSON.stringify(pedidos));
-}
-
-function guardarPedidoEnPanel(pedido){
-  const pedidos = leerPedidosGuardados();
-  const nuevo = {
-    id: Date.now() + Math.floor(Math.random() * 1000),
-    cliente: pedido.cliente,
-    entrega: pedido.entrega,
-    pago: pedido.pago,
-    items: pedido.items,
-    total: pedido.total,
-    texto: pedido.texto,
-    createdAt: Date.now(),
-    expiresAt: Date.now() + (PEDIDOS_HORAS_BORRAR * 60 * 60 * 1000),
-    status: "",
-    paid: false
-  };
-
-  pedidos.unshift(nuevo);
-  guardarPedidos(pedidos);
-}
-
-function actualizarResumen(){
-  document.getElementById("statItems").innerText=carrito.length;
-  document.getElementById("statTotal").innerText="$"+totalCarrito();
-
-  const entrega=document.getElementById("tipoEntrega").value;
-  document.getElementById("statEntrega").innerText = entrega === "A domicilio" ? "Domicilio" : "Local";
-}
+let carrito=[], seleccionado=null;
+let paso=0, flujo=[], data={}, maxSel=null;
 
 function setCategoria(cat){
-  soundOpen();
-  document.getElementById("modal").className="modal "+cat;
-  document.getElementById("modal").style.display="block";
+document.getElementById("modal").className="modal "+cat;
+document.getElementById("modal").style.display="block";
 }
 
+/* EMOJIS */
 function getEmoji(nombre){
-  nombre=nombre.toLowerCase();
+nombre = nombre.toLowerCase();
 
-  if(nombre.includes("hot dog") || nombre.includes("hotdog")) return "🌭";
+// 🔥 prioridad principal (para evitar conflictos)
+if(nombre.includes("hot dog") || nombre.includes("hotdog")) return "🌭";
 
-  if(
-    nombre.includes("hamburguesa") ||
-    nombre.includes("clásica") ||
-    nombre.includes("hawaiana") ||
-    nombre.includes("especial")
-  ) return "🍔";
+if(
+nombre.includes("hamburguesa") ||
+nombre.includes("clásica") ||
+nombre.includes("hawaiana") ||
+nombre.includes("especial")
+) return "🍔";
 
-  if(nombre.includes("crepa")) return "🥞";
+if(nombre.includes("crepa")) return "🥞";
 
-  if(nombre.includes("plátanos") || nombre.includes("platano")) return "🍌";
+if(nombre.includes("plátanos") || nombre.includes("platano")) return "🍌";
 
-  if(
-    nombre.includes("papas") ||
-    nombre.includes("salchipulpos") ||
-    nombre.includes("banderilla")
-  ) return "🍟";
+// 🔥 PAPAS (más completo como pediste)
+if(
+nombre.includes("papas") ||
+nombre.includes("papas a la francesa") ||
+nombre.includes("salchipulpos") ||
+nombre.includes("salchipulpos con papas") ||
+nombre.includes("banderilla") ||
+nombre.includes("banderilla con papas") ||
+nombre.includes("banderilla sola")
+) return "🍟";
 
-  if(nombre.includes("frappé") || nombre.includes("frappe")) return "🥤";
+if(nombre.includes("frappé") || nombre.includes("frappe")) return "🥤";
 
-  return "🍽️";
+return "🍽️";
 }
 
 function abrir(titulo,ops,tipo,max=null){
-  document.getElementById("titulo").innerText=titulo;
-  maxSel=max;
+document.getElementById("titulo").innerText=titulo;
+maxSel=max;
 
-  let html="";
-  ops.forEach(o=>{
-    html+=`
-      <label>
-        <input type="${tipo}" name="opcion" value="${o}" onclick="control(this)">
-        <span>${o}</span>
-      </label>
-    `;
-  });
-
-  document.getElementById("ops").innerHTML=html;
+let html="";
+ops.forEach(o=>{
+html+=`<label><input type="${tipo}" name="opcion" value="${o}" onclick="control(this)"> ${o}</label>`;
+});
+document.getElementById("ops").innerHTML=html;
 }
 
-function cerrar(){
-  document.getElementById("modal").style.display="none";
-}
-
-function back(){
-  if(paso>0){
-    paso--;
-    flujo[paso]();
-  }
-}
+function cerrar(){document.getElementById("modal").style.display="none";}
+function back(){if(paso>0){paso--;flujo[paso]();}}
 
 function getSel(){
-  return [...document.querySelectorAll("#ops input:checked")].map(i=>i.value);
+return [...document.querySelectorAll("#ops input:checked")].map(i=>i.value);
 }
 
 function control(input){
-  let checks=document.querySelectorAll("#ops input");
+let checks=document.querySelectorAll("#ops input");
 
-  if(
-    input.value==="Ninguna" ||
-    input.value==="Ninguno" ||
-    input.value==="Con Todo"
-  ){
-    if(input.checked){
-      checks.forEach(c=>{
-        if(c!==input) c.checked=false;
-      });
-    }
-  }else{
-    checks.forEach(c=>{
-      if(
-        c.value==="Ninguna" ||
-        c.value==="Ninguno" ||
-        c.value==="Con Todo"
-      ){
-        c.checked=false;
-      }
-    });
-  }
+if(input.value==="Ninguna" || input.value==="Ninguno" || input.value==="Con Todo"){
+if(input.checked){
+checks.forEach(c=>{
+if(c!==input) c.checked=false;
+});
+}
+}else{
+checks.forEach(c=>{
+if(c.value==="Ninguna" || c.value==="Ninguno" || c.value==="Con Todo"){
+c.checked=false;
+}
+});
+}
 
-  if(maxSel && getSel().length>maxSel){
-    input.checked=false;
-    toast("Solo puedes elegir el máximo permitido.", "warn");
-  }
+if(maxSel && getSel().length>maxSel) input.checked=false;
 }
 
 function next(){
-  let sel=getSel();
+let sel=getSel();
+if(!sel.length){alert("Selecciona algo");return;}
 
-  if(!sel.length){
-    alert("Selecciona algo");
-    return;
-  }
+data[flujo[paso].key]=sel;
+paso++;
 
-  data[flujo[paso].key]=sel;
-  paso++;
-
-  if(paso<flujo.length){
-    flujo[paso]();
-  }else{
-    cerrar();
-    flujo.fin();
-  }
+if(paso<flujo.length) flujo[paso]();
+else{cerrar();flujo.fin();}
 }
 
 function add(txt,precio){
-  soundAdd();
-  carrito.push({
-    nombre:txt,
-    precio
-  });
-
-  render();
-  actualizarResumen();
-  toast("Producto agregado al carrito");
+carrito.push({nombre:txt,precio});
+render();
 }
 
 function render(){
-  let div=document.getElementById("carrito");
-  div.innerHTML="";
+let div=document.getElementById("carrito");
+div.innerHTML="";
+let total=0;
 
-  let total=0;
+carrito.forEach((i,idx)=>{
+let emoji=getEmoji(i.nombre);
 
-  if(carrito.length===0){
-    div.innerHTML = `
-      <div style="text-align:center;padding:22px 10px;color:#475569;">
-        <div style="font-size:34px;">🛒</div>
-        <div style="font-weight:800;margin-top:8px;">Tu carrito está vacío</div>
-        <div style="font-size:13px;margin-top:4px;">Agrega productos para armar tu pedido</div>
-      </div>
-    `;
-  }else{
-    carrito.forEach((i,idx)=>{
-      let emoji=getEmoji(i.nombre);
+div.innerHTML+=`
+<p style="border-bottom:1px solid #ddd;padding:5px;"
+onclick="seleccionar(${idx})"
+class="${seleccionado===idx?'selected':''}">
+${emoji} ${i.nombre.replace(/\n/g,"<br>")}
+</p>
+`;
 
-      div.innerHTML+=`
-        <p
-          onclick="seleccionar(${idx})"
-          class="${seleccionado===idx?'selected':''}"
-        >
-          ${emoji} ${i.nombre.replace(/\n/g,"<br>")}
-        </p>
-      `;
+total+=i.precio;
+});
 
-      total+=i.precio;
-    });
-  }
-
-  document.getElementById("total").innerText="Total: $"+total;
-  actualizarResumen();
+document.getElementById("total").innerText="Total: $"+total;
 }
 
-function seleccionar(i){
-  seleccionado=i;
-  render();
-}
-
-function eliminar(){
-  if(seleccionado!=null){
-    carrito.splice(seleccionado,1);
-    seleccionado=null;
-    render();
-    toast("Producto eliminado", "bad");
-    soundDelete();
-  }else{
-    toast("Selecciona un producto primero", "warn");
-  }
-}
-
-function vaciar(){
-  carrito=[];
-  seleccionado=null;
-  render();
-  toast("Carrito vaciado");
-}
-
-function totalCarrito(){
-  return carrito.reduce((acc,item)=>acc+item.precio,0);
-}
-
-function obtenerUbicacionActual(){
-  return new Promise((resolve, reject) => {
-    if(!navigator.geolocation){
-      reject("Tu navegador no permite obtener ubicación.");
-      return;
-    }
-
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        let lat = pos.coords.latitude;
-        let lon = pos.coords.longitude;
-        let link = `https://www.google.com/maps?q=${lat},${lon}`;
-        resolve({
-          lat,
-          lon,
-          link
-        });
-      },
-      (err) => {
-        reject(err);
-      },
-      {
-        enableHighAccuracy: true,
-        timeout: 15000,
-        maximumAge: 0
-      }
-    );
-  });
-}
-
-async function verificarEntrega(){
-  let entrega=document.getElementById("tipoEntrega").value;
-  document.getElementById("statEntrega").innerText = entrega === "A domicilio" ? "Domicilio" : "Local";
-
-  if(entrega==="A domicilio"){
-    document.getElementById("estadoUbicacion").innerText="📍 Solicitando permiso de ubicación...";
-    try{
-      await obtenerUbicacionActual();
-      document.getElementById("estadoUbicacion").innerText="✅ Ubicación lista para envío a domicilio";
-      toast("Permiso de ubicación listo", "good");
-    }catch{
-      document.getElementById("estadoUbicacion").innerText="❌ Debes permitir la ubicación para envío a domicilio";
-      toast("Activa la ubicación para continuar", "warn");
-    }
-  }else{
-    document.getElementById("estadoUbicacion").innerText="📍 Si eliges a domicilio, se pedirá tu ubicación al enviar el pedido";
-  }
-}
+function seleccionar(i){seleccionado=i;render();}
+function eliminar(){if(seleccionado!=null){carrito.splice(seleccionado,1);seleccionado=null;render();}}
+function vaciar(){carrito=[];render();}
 
 /* CREPAS */
 function crepas(){
-  setCategoria("crepas");
-  paso=0;
-  data={};
+setCategoria("crepas");paso=0;data={};
 
-  flujo=[
-    ()=>abrir(
-      "Bases",
-      [
-        "Nutella",
-        "Lechera",
-        "Cajeta",
-        "Queso Philadelphia",
-        "Mermelada de fresa",
-        "Mermelada de zarzamora"
-      ],
-      "checkbox",
-      2
-    ),
+flujo=[
+()=>abrir("Bases",["Nutella","Lechera","Cajeta","Queso Philadelphia","Mermelada de fresa","Mermelada de zarzamora"],"checkbox",2),
+()=>abrir("Frutas",["Fresa","Plátano","Durazno","Uva","Ninguna"],"checkbox"),
+()=>abrir("Decoración",["Chocolate Hershey's","Lechera","Ninguna"],"radio"),
+()=>abrir("Toppings",["Granillo de chocolate","Granillo de arcoiris","Gotas de chocolate","Nuez","Lunetitas","Ninguno"],"radio")
+];
 
-    ()=>abrir(
-      "Frutas",
-      [
-        "Fresa",
-        "Plátano",
-        "Durazno",
-        "Uva",
-        "Ninguna"
-      ],
-      "checkbox"
-    ),
+flujo[0].key="bases";
+flujo[1].key="frutas";
+flujo[2].key="dec";
+flujo[3].key="top";
 
-    ()=>abrir(
-      "Decoración",
-      [
-        "Chocolate Hershey's",
-        "Lechera",
-        "Ninguna"
-      ],
-      "radio"
-    ),
+flujo.fin=function(){
+let b=data.bases||[];
+let f=(data.frutas||[]).filter(x=>x!="Ninguna");
 
-    ()=>abrir(
-      "Toppings",
-      [
-        "Granillo de chocolate",
-        "Granillo de arcoiris",
-        "Gotas de chocolate",
-        "Nuez",
-        "Lunetitas",
-        "Ninguno"
-      ],
-      "radio"
-    )
-  ];
+if(b.length>=2 && f.length>=4){
+alert("⚠️ PARA LA CREPA FRUTAL PUEDE LLEVAR MÁXIMO 1 BASE");
+paso=0;
+data={};
+flujo[0]();
+return;
+}
 
-  flujo[0].key="bases";
-  flujo[1].key="frutas";
-  flujo[2].key="dec";
-  flujo[3].key="top";
+let nb=b.length, nf=f.length;
+let precio=30;
 
-  flujo.fin=function(){
-    let b=data.bases||[];
-    let f=(data.frutas||[]).filter(x=>x!="Ninguna");
+if(nb==1 && nf==1) precio=40;
+else if(nb==2 && nf==0) precio=35;
+else if((nb==1 && nf==2) || (nb==2 && nf==1)) precio=45;
+else if(nb>=1 && nf>=4) precio=50;
+else if(nb>=2 && nf>=2) precio=50;
+else if(nb>=1 && nf>=3) precio=50;
+else if(nb>=2 && nf>=3) precio=50;
 
-    if(b.length>=2 && f.length>=4){
-      alert("⚠️ PARA LA CREPA FRUTAL PUEDE LLEVAR MÁXIMO 1 BASE");
-      paso=0;
-      data={};
-      flujo[0]();
-      return;
-    }
+let txt="Crepa\nBase: "+b.join(", ");
+if(f.length) txt+="\nFruta: "+f.join(", ");
+if(data.dec && data.dec[0]!="Ninguna") txt+="\nDecoración: "+data.dec;
+if(data.top && data.top[0]!="Ninguno") txt+="\nToppings: "+data.top;
 
-    let nb=b.length;
-    let nf=f.length;
+txt+="\nPrecio: $"+precio;
+add(txt,precio);
+};
 
-    let precio=30;
-    if(nb==1 && nf==1) precio=40;
-    else if(nb==2 && nf==0) precio=35;
-    else if((nb==1 && nf==2) || (nb==2 && nf==1)) precio=45;
-    else if(nb>=1 && nf>=3) precio=50;
-    else if(nb>=2 && nf>=2) precio=50;
-    else if(nb>=2 && nf>=3) precio=50;
-
-    let txt="Crepa";
-    txt+="\nBase: "+b.join(", ");
-
-    if(f.length)
-      txt+="\nFruta: "+f.join(", ");
-
-    if(data.dec && data.dec[0]!="Ninguna")
-      txt+="\nDecoración: "+data.dec;
-
-    if(data.top && data.top[0]!="Ninguno")
-      txt+="\nToppings: "+data.top;
-
-    txt+="\nPrecio: $"+precio;
-    add(txt,precio);
-  };
-
-  flujo[0]();
+flujo[0]();
 }
 
 /* PLATANOS */
 function platanos(){
-  setCategoria("platanos");
-  paso=0;
-  data={};
+setCategoria("platanos");paso=0;data={};
 
-  flujo=[
-    ()=>abrir(
-      "Tipo",
-      [
-        "Fritos - $30",
-        "Árabes - $40"
-      ],
-      "radio"
-    ),
+flujo=[
+()=>abrir("Tipo",["Fritos - $30","Árabes - $40"],"radio"),
+()=>abrir("Complementos",["Crema","Lechera","Mermelada de fresa","Ninguna"],"checkbox"),
+()=>abrir("Toppings",["Granillo de chocolate","Granillo de arcoiris","Gotas de chocolate","Nuez","Lunetitas","Ninguno"],"radio")
+];
 
-    ()=>abrir(
-      "Complementos",
-      [
-        "Crema",
-        "Lechera",
-        "Mermelada de fresa",
-        "Ninguna"
-      ],
-      "checkbox"
-    ),
+flujo[0].key="tipo";
+flujo[1].key="comp";
+flujo[2].key="top";
 
-    ()=>abrir(
-      "Toppings",
-      [
-        "Granillo de chocolate",
-        "Granillo de arcoiris",
-        "Gotas de chocolate",
-        "Nuez",
-        "Lunetitas",
-        "Ninguno"
-      ],
-      "radio"
-    )
-  ];
+flujo.fin=function(){
+let precio=data.tipo[0].includes("30")?30:40;
 
-  flujo[0].key="tipo";
-  flujo[1].key="comp";
-  flujo[2].key="top";
+let txt="Plátanos "+data.tipo[0].split(" - ")[0];
+if(data.comp && !data.comp.includes("Ninguna"))
+txt+="\nComplementos: "+data.comp.join(", ");
+if(data.top && !data.top.includes("Ninguno"))
+txt+="\nToppings: "+data.top;
 
-  flujo.fin=function(){
-    let precio=data.tipo[0].includes("30")?30:40;
-    let txt="Plátanos "+data.tipo[0].split(" - ")[0];
+txt+="\nPrecio: $"+precio;
+add(txt,precio);
+};
 
-    if(data.comp && !data.comp.includes("Ninguna"))
-      txt+="\nComplementos: "+data.comp.join(", ");
-
-    if(data.top && !data.top.includes("Ninguno"))
-      txt+="\nToppings: "+data.top;
-
-    txt+="\nPrecio: $"+precio;
-    add(txt,precio);
-  };
-
-  flujo[0]();
+flujo[0]();
 }
 
 /* PAPAS */
 function papas(){
-  setCategoria("papas");
-  paso=0;
-  data={};
+setCategoria("papas");paso=0;data={};
 
-  flujo=[
-    ()=>abrir(
-      "Tipo",
-      [
-        "Papas a la francesa - $35",
-        "Salchipulpos con papas - $45",
-        "Banderilla con papas - $35",
-        "Banderilla sola - $25"
-      ],
-      "radio"
-    ),
+flujo=[
+()=>abrir("Tipo",[
+"Papas a la francesa - $35",
+"Salchipulpos con papas - $45",
+"Banderilla con papas - $35",
+"Banderilla sola - $25"
+],"radio"),
+()=>abrir("Aderezos",["Catsup","Queso amarillo","Salsa","Ninguna"],"checkbox")
+];
 
-    ()=>abrir(
-      "Aderezos",
-      [
-        "Catsup",
-        "Queso amarillo",
-        "Salsa",
-        "Ninguna"
-      ],
-      "checkbox"
-    )
-  ];
+flujo[0].key="tipo";
+flujo[1].key="ad";
 
-  flujo[0].key="tipo";
-  flujo[1].key="ad";
+flujo.fin=function(){
+let precio=parseInt(data.tipo[0].match(/\d+/)[0]);
 
-  flujo.fin=function(){
-    let precio=parseInt(data.tipo[0].match(/\d+/)[0]);
-    let txt=data.tipo[0].split(" - ")[0];
+let txt=data.tipo[0].split(" - ")[0];
+if(data.ad && !data.ad.includes("Ninguna"))
+txt+="\nAderezos: "+data.ad.join(", ");
 
-    if(data.ad && !data.ad.includes("Ninguna"))
-      txt+="\nAderezos: "+data.ad.join(", ");
+txt+="\nPrecio: $"+precio;
+add(txt,precio);
+};
 
-    txt+="\nPrecio: $"+precio;
-    add(txt,precio);
-  };
-
-  flujo[0]();
+flujo[0]();
 }
 
 /* HAMBURGUESAS */
 function hamb(){
-  setCategoria("hamb");
-  paso=0;
-  data={};
+setCategoria("hamb");paso=0;data={};
 
-  flujo=[
-    ()=>abrir(
-      "Tipo de Hamburguesa",
-      [
-        "Clásica - $55",
-        "Hawaiana - $60",
-        "Especial - $65"
-      ],
-      "radio"
-    ),
+flujo=[
+()=>abrir("Tipo de Hamburguesa",[
+"Clásica - $55",
+"Hawaiana - $60",
+"Especial - $65"
+],"radio"),
 
-    ()=>abrir(
-      "Omitir ingredientes",
-      [
-        "Jamón",
-        "Queso amarillo",
-        "Queso Oaxaca",
-        "Chiles en vinagre",
-        "Jitomate",
-        "Cebolla",
-        "Lechuga",
-        "Mayonesa",
-        "Mostaza",
-        "Catsup",
-        "Con Todo"
-      ],
-      "checkbox"
-    ),
+()=>abrir("Omitir ingredientes",[
+"Jamón","Queso amarillo","Queso Oaxaca","Chiles en vinagre",
+"Jitomate","Cebolla","Lechuga","Mayonesa","Mostaza","Catsup","Con Todo"
+],"checkbox"),
 
-    ()=>abrir(
-      "Extras",
-      [
-        "Piña $8",
-        "Tocino $8",
-        "Salchicha $8",
-        "Carne $10",
-        "Ninguna"
-      ],
-      "checkbox"
-    ),
+()=>abrir("Extras",[
+"Piña $8","Tocino $8","Salchicha $8","Carne $10","Ninguna"
+],"checkbox"),
 
-    ()=>abrir(
-      "¿Con papas o sin papas?",
-      [
-        "Con papas (+$10)",
-        "Sin papas"
-      ],
-      "radio"
-    ),
+()=>abrir("¿Con papas o sin papas?",[
+"Con papas (+$10)","Sin papas"
+],"radio"),
 
-    ()=>{
-      if(data.papas[0].includes("Con papas")){
-        abrir(
-          "Aderezos de papas",
-          [
-            "Catsup",
-            "Queso amarillo",
-            "Salsa",
-            "Ninguna"
-          ],
-          "checkbox"
-        );
-      }else{
-        data.aderezos=["Ninguna"];
-        cerrar();
-        flujo.fin();
-      }
-    }
-  ];
+()=> {
+if(data.papas[0].includes("Con papas")){
+abrir("Aderezos de papas",[
+"Catsup","Queso amarillo","Salsa","Ninguna"
+],"checkbox");
+}else{
+data.aderezos=["Ninguna"];
+cerrar();
+flujo.fin();
+}
+}
+];
 
-  flujo[0].key="tipo";
-  flujo[1].key="sin";
-  flujo[2].key="extra";
-  flujo[3].key="papas";
-  flujo[4].key="aderezos";
+flujo[0].key="tipo";
+flujo[1].key="sin";
+flujo[2].key="extra";
+flujo[3].key="papas";
+flujo[4].key="aderezos";
 
-  flujo.fin=function(){
-    let precio=parseInt(data.tipo[0].match(/\d+/)[0]);
+flujo.fin=function(){
+let precio=parseInt(data.tipo[0].match(/\d+/)[0]);
 
-    if(data.papas[0].includes("Con papas"))
-      precio+=10;
+// papas
+if(data.papas[0].includes("Con papas")) precio+=10;
 
-    (data.extra||[]).forEach(e=>{
-      if(e.includes("$"))
-        precio+=parseInt(e.split("$")[1]);
-    });
+// extras
+(data.extra||[]).forEach(e=>{
+if(e.includes("$")) precio+=parseInt(e.split("$")[1]);
+});
 
-    let nombreHamb=data.tipo[0].split(" - ")[0];
-    let txt="Hamburguesa "+nombreHamb;
+// texto
+let nombreHamb = data.tipo[0].split(" - ")[0];
+let txt="Hamburguesa " + nombreHamb;
 
-    txt+=data.papas[0].includes("Con papas")
-      ? "\nCon papas"
-      : "\nSin papas";
-
-    if(data.sin){
-      if(data.sin.includes("Con Todo")){
-        txt+="\nIngredientes: Con todo";
-      }else{
-        txt+="\nSin: "+data.sin.join(", ");
-      }
-    }
-
-    if(data.extra){
-      if(data.extra.includes("Ninguna")){
-        txt+="\nExtras: Ninguna";
-      }else{
-        txt+="\nExtras: "+data.extra.join(", ");
-      }
-    }
-
-    if(data.papas[0].includes("Con papas")){
-      if(data.aderezos){
-        if(data.aderezos.includes("Ninguna")){
-          txt+="\nAderezos papas: Ninguna";
-        }else{
-          txt+="\nAderezos papas: "+data.aderezos.join(", ");
-        }
-      }
-    }
-
-    txt+="\nPrecio: $"+precio;
-    add(txt,precio);
-  };
-
-  flujo[0]();
+if(data.papas[0].includes("Con papas")){
+txt+="\nCon papas";
+}else{
+txt+="\nSin papas";
 }
 
-/* HOT DOGS */
+// 🔥 SIEMPRE mostrar selección
+if(data.sin){
+if(data.sin.includes("Con Todo")){
+txt+="\nIngredientes: <b>Con todo</b>";
+}else{
+txt+="\nSin: "+data.sin.join(", ");
+}
+}
+
+// 🔥 extras SIEMPRE visibles
+if(data.extra){
+if(data.extra.includes("Ninguna")){
+txt+="\nExtras: Ninguna";
+}else{
+txt+="\nExtras: "+data.extra.join(", ");
+}
+}
+
+// aderezos papas
+if(data.papas[0].includes("Con papas")){
+if(data.aderezos){
+if(data.aderezos.includes("Ninguna")){
+txt+="\nAderezos papas: Ninguna";
+}else{
+txt+="\nAderezos papas: "+data.aderezos.join(", ");
+}
+}
+}
+
+txt+="\nPrecio: $"+precio;
+
+add(txt,precio);
+};
+  
+flujo[0]();
+}
+
+/* HOTDOGS */
 function hot(){
-  setCategoria("hot");
-  paso=0;
-  data={};
+setCategoria("hot");paso=0;data={};
 
-  flujo=[
-    ()=>abrir(
-      "Tipo",
-      [
-        "Sencillo",
-        "Especiales"
-      ],
-      "radio"
-    ),
+flujo=[
+()=>abrir("Tipo",["Sencillo","Especiales"],"radio"),
+()=> {
+if(data.tipo[0]==="Especiales"){
+abrir("¿Qué cantidad?",["1 $25","2 $50","3 $70"],"radio");
+}else{
+abrir("¿Qué cantidad?",["1 $20","2 $40","3 $55"],"radio");
+}
+},
+()=>abrir("Omitir ingredientes",["Mayonesa","Catsup","Jitomate","Chile jalapeño","Cebolla","Con Todo"],"checkbox")
+];
 
-    ()=>{
-      if(data.tipo[0]==="Especiales"){
-        abrir(
-          "¿Qué cantidad?",
-          [
-            "1 $25",
-            "2 $50",
-            "3 $70"
-          ],
-          "radio"
-        );
-      }else{
-        abrir(
-          "¿Qué cantidad?",
-          [
-            "1 $20",
-            "2 $40",
-            "3 $55"
-          ],
-          "radio"
-        );
-      }
-    },
+flujo[0].key="tipo";
+flujo[1].key="cant";
+flujo[2].key="sin";
 
-    ()=>abrir(
-      "Omitir ingredientes",
-      [
-        "Mayonesa",
-        "Catsup",
-        "Jitomate",
-        "Chile jalapeño",
-        "Cebolla",
-        "Con Todo"
-      ],
-      "checkbox"
-    )
-  ];
+flujo.fin=function(){
 
-  flujo[0].key="tipo";
-  flujo[1].key="cant";
-  flujo[2].key="sin";
+// 🔥 obtener cantidad real (1,2,3)
+let cantidad = data.cant[0].split(" ")[0];
 
-  flujo.fin=function(){
-    let cantidad=parseInt(data.cant[0]);
-    let precio=parseInt(data.cant[0].match(/\d+/g).pop());
+// 🔥 obtener precio correcto (20,40,55...)
+let precio = parseInt(data.cant[0].match(/\d+/g).pop());
 
-    let txt=`Hot Dog ${data.tipo[0]} x${cantidad}`;
+let txt = `Hot Dog ${data.tipo[0]} x${cantidad}`;
 
-    if(data.sin){
-      if(data.sin.includes("Con Todo")){
-        txt+="\nCon todo";
-      }else{
-        txt+="\nSin: "+data.sin.join(", ");
-      }
-    }
+// 🔥 ingredientes
+if(data.sin){
+if(data.sin.includes("Con Todo")){
+txt += "\n<b>Con todo</b>";
+}else{
+txt += "\nSin: " + data.sin.join(", ");
+}
+}
 
-    txt+="\nPrecio: $"+precio;
-    add(txt,precio);
-  };
+txt += "\nPrecio: $" + precio;
 
-  flujo[0]();
+add(txt, precio);
+};
+
+flujo[0]();
 }
 
 /* FRAPPES */
 function frap(){
-  setCategoria("frap");
-  paso=0;
-  data={};
+setCategoria("frap");paso=0;data={};
 
-  flujo=[
-    ()=>abrir(
-      "Tipo",
-      [
-        "Galleta Oreo",
-        "Mazapán",
-        "Frapuccino",
-        "Fresa"
-      ],
-      "radio"
-    ),
+flujo=[
+()=>abrir("Tipo",["Galleta Oreo","Mazapán","Frapuccino","Fresa"],"radio"),
+()=> {
+if(data.tipo[0]==="Fresa"){
+abrir("Tamaño",["Chico $35","Grande $60"],"radio");
+}else{
+abrir("Tamaño",["Chico $30","Grande $50"],"radio");
+}
+}
+];
 
-    ()=>{
-      if(data.tipo[0]==="Fresa"){
-        abrir(
-          "Tamaño",
-          [
-            "Chico $35",
-            "Grande $60"
-          ],
-          "radio"
-        );
-      }else{
-        abrir(
-          "Tamaño",
-          [
-            "Chico $30",
-            "Grande $50"
-          ],
-          "radio"
-        );
-      }
-    }
-  ];
+flujo[0].key="tipo";
+flujo[1].key="tam";
 
-  flujo[0].key="tipo";
-  flujo[1].key="tam";
+flujo.fin=function(){
+let precio=parseInt(data.tam[0].match(/\d+/)[0]);
 
-  flujo.fin=function(){
-    let precio=parseInt(data.tam[0].match(/\d+/)[0]);
-    let tamaño=data.tam[0].split(" $")[0];
+let tamaño = data.tam[0].split(" $")[0];
+let txt=`Frappé ${data.tipo[0]} (${tamaño})`;
+txt+=`\nPrecio: $${precio}`;
 
-    let txt=`Frappé ${data.tipo[0]} (${tamaño})`;
-    txt+=`\nPrecio: $${precio}`;
-    add(txt,precio);
-  };
+add(txt,precio);
+};
 
-  flujo[0]();
+flujo[0]();
 }
 
-/* ENVIAR */
-async function enviar(){
-  soundTap();
+function enviar(){
+let txt="🧾 Pedido - El Michi 🐱%0A%0A";
+let total=0;
 
-  if(carrito.length===0){
-    alert("Agrega productos al carrito");
-    return;
-  }
+carrito.forEach(i=>{
+let emoji=getEmoji(i.nombre);
+let texto = i.nombre
+.replace(/<b>/g,"*")
+.replace(/<\/b>/g,"*");
 
-  let nombre=document.getElementById("nombreCliente").value.trim();
-  let entrega=document.getElementById("tipoEntrega").value;
-  let pago=document.getElementById("pago").value;
+txt+=emoji+" "+texto.replace(/\n/g,"%0A")+"%0A%0A";
+total+=i.precio;
+});
 
-  if(nombre===""){
-    alert("Escribe tu nombre");
-    return;
-  }
+txt+="💰 Total: $"+total;
 
-  let total=totalCarrito();
-
-  if(entrega==="A domicilio" && total < 100){
-    alert("🛵 Para enviar a domicilio, el pedido debe alcanzar al menos $100. Agrega otro producto para continuar.");
-    return;
-  }
-
-  let txt="🧾 PEDIDO EL MICHI 🐱\n\n";
-  txt+="👤 Cliente: "+nombre+"\n";
-  txt+="🚚 Entrega: "+entrega+"\n";
-  txt+="💳 Pago: "+pago+"\n\n";
-
-  carrito.forEach(i=>{
-    let emoji=getEmoji(i.nombre);
-    txt+=emoji+" "+i.nombre+"\n\n";
-  });
-
-  if(entrega==="A domicilio"){
-    try{
-      document.getElementById("estadoUbicacion").innerText="📍 Obteniendo ubicación...";
-      let ubicacion=await obtenerUbicacionActual();
-      txt+="📍 Ubicación del cliente:\n";
-      txt+=ubicacion.link+"\n\n";
-      document.getElementById("estadoUbicacion").innerText="📍 Ubicación agregada correctamente";
-    }catch(err){
-      document.getElementById("estadoUbicacion").innerText="📍 No se pudo obtener la ubicación";
-      alert("Necesitamos tu ubicación para realizar el envío a domicilio. Activa el permiso de ubicación y vuelve a intentar.");
-      return;
-    }
-  }
-
-  txt+="💰 TOTAL: $"+total;
-
-  guardarPedidoEnPanel({
-    cliente: nombre,
-    entrega,
-    pago,
-    items: carrito.map(i=>i.nombre),
-    total,
-    texto: txt
-  });
-
-  carrito=[];
-  seleccionado=null;
-  render();
-  actualizarResumen();
-
-  let telefono="525532416109";
-  let mensaje=encodeURIComponent(txt);
-  let url="whatsapp://send?phone="+telefono+"&text="+mensaje;
-
-  toast("Abriendo WhatsApp para enviar el pedido");
-  window.location.href=url;
-
-  setTimeout(()=>{
-    if(document.visibilityState==="visible"){
-      window.location.href="https://wa.me/"+telefono+"?text="+mensaje;
-    }
-  },900);
+window.open("https://wa.me/525532416109?text="+txt);
 }
-
-/* estado inicial */
-verificarEntrega();
 </script>
 
 </body>
 </html>
+```
